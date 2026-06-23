@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const C = {
   bg:"#080A0F", s1:"#0F1118", s2:"#161A24", border:"#1C2133",
@@ -17,24 +17,6 @@ const TYPES = {
   season:   { label:"시즌아이템",  emoji:"🌸", color:"#32ADE6" },
 };
 
-const MOCK = [
-  { id:1,  type:"kpop",     title:"BTS 뷔 전역 후 첫 솔로 컴백 티저 유출됨",          source:"해외", from:"r/kpop",       ago:"1시간 전", heat:98 },
-  { id:2,  type:"social",   title:"늑구 탈출 전말 영상 직접 공개, 충격 반전 있었다",   source:"국내", from:"에펨코리아",   ago:"1시간 전", heat:96 },
-  { id:3,  type:"kpop",     title:"전소미가 매일 쓴다는 데오드란트 브랜드 정체 공개",  source:"국내", from:"더쿠",         ago:"2시간 전", heat:94 },
-  { id:4,  type:"culture",  title:"미국 틱톡에서 된장찌개 챌린지 폭발, 2억뷰 돌파",   source:"해외", from:"r/KoreanFood", ago:"3시간 전", heat:88 },
-  { id:5,  type:"overseas", title:"일본 편의점 불닭볶음면 3주째 품귀 현상 이유 있었다", source:"해외", from:"r/japan",      ago:"4시간 전", heat:85 },
-  { id:6,  type:"kpop",     title:"블랙핑크 리사 솔로 MV 24시간 조회수 신기록 갱신",  source:"해외", from:"YouTube",      ago:"5시간 전", heat:82 },
-  { id:7,  type:"culture",  title:"뉴욕 한식당 3곳 미슐랭 스타 동시 획득 쾌거",       source:"해외", from:"r/korea",      ago:"6시간 전", heat:78 },
-  { id:8,  type:"social",   title:"한국계 미국인 하버드 최연소 교수 임명 화제",         source:"국내", from:"네이버",       ago:"7시간 전", heat:74 },
-  { id:9,  type:"overseas", title:"미국 Z세대 한국어 학습 앱 다운로드 600% 폭증 이유", source:"해외", from:"Reddit",       ago:"8시간 전", heat:70 },
-  { id:10, type:"kpop",     title:"NewJeans 일본 돔 투어 현지 반응 역대급 화제",       source:"국내", from:"인스티즈",     ago:"9시간 전",  heat:66 },
-  { id:11, type:"beauty",   title:"요즘 여자들 다 쓴다는 선크림, 성분 보니 충격",           source:"국내", from:"화해앱",       ago:"2시간 전",  heat:91 },
-  { id:12, type:"beauty",   title:"다이소 5000원 세럼 vs 백화점 10만원 세럼 비교 결과",     source:"국내", from:"더쿠",         ago:"4시간 전",  heat:86 },
-  { id:13, type:"living",   title:"주방 기름때 5년 묵은 거 3분에 제거하는 방법",            source:"국내", from:"에펨코리아",   ago:"3시간 전",  heat:89 },
-  { id:14, type:"living",   title:"다이소 신상 주방용품 써봤는데 진짜 미쳤음",              source:"국내", from:"클리앙",       ago:"5시간 전",  heat:83 },
-  { id:15, type:"season",   title:"올여름 필수 아이템 5가지, 지금 안 사면 품절됨",          source:"국내", from:"네이버쇼핑",   ago:"1시간 전",  heat:93 },
-  { id:16, type:"season",   title:"장마철 습기 잡는 이 제품, 품절 대란 이유 있었다",        source:"국내", from:"루리웹",       ago:"6시간 전",  heat:80 },
-];
 
 const STRUCTURES = {
   kpop:     ["훅: 충격 사실 제시","발견 경로 설명","팬/커뮤니티 반응","인물·제품 핵심","화제 포인트 1","화제 포인트 2","현재 상황/결말","CTA: 댓글 유도"],
@@ -164,8 +146,19 @@ export default function App() {
     model:"Claude", imageStyle:"실사 사진형", imageColor:"밝고 경쾌한", imageText:"자막 포함",
   });
   const setOpt = (k,v) => setOpts(p=>({...p,[k]:v}));
+  const [topics, setTopics] = useState([]);
+  const [topicsLoading, setTopicsLoading] = useState(true);
+  const [topicsError, setTopicsError] = useState(null);
 
-  const filtered = MOCK.filter(m=>(typeF==="all"||m.type===typeF)&&(srcF==="전체"||m.source===srcF));
+  useEffect(() => {
+    fetch("/topics.json")
+      .then(r => { if (!r.ok) throw new Error("topics.json 로드 실패"); return r.json(); })
+      .then(data => { setTopics(data); setTopicsLoading(false); })
+      .catch(e => { setTopicsError(e.message); setTopicsLoading(false); });
+  }, []);
+
+
+  const filtered = topics.filter(m=>(typeF==="all"||m.type===typeF)&&(srcF==="전체"||m.source===srcF));
 
   const pickTopic = t => { setTopic(t); setOutput(null); setTab("generate"); };
 
@@ -282,6 +275,24 @@ export default function App() {
 
         {/* ── TRENDS ── */}
         {tab==="trends" && <>
+          {/* 수집 상태 표시 */}
+          {topicsLoading && (
+            <div style={{background:C.s2,border:`1px solid ${C.border}`,borderRadius:10,padding:"20px",textAlign:"center",color:C.sub,marginBottom:16}}>
+              <div style={{fontSize:20,marginBottom:6}}>⏳</div>
+              이슈 수집 중...
+            </div>
+          )}
+          {topicsError && (
+            <div style={{background:"#1A0508",border:`1px solid ${C.accent}44`,borderRadius:10,padding:"14px 16px",marginBottom:16,color:C.accent,fontSize:13}}>
+              ⚠️ {topicsError} — 직접 입력창을 이용해주세요
+            </div>
+          )}
+          {!topicsLoading && !topicsError && topics.length === 0 && (
+            <div style={{background:C.s2,border:`1px solid ${C.border}`,borderRadius:10,padding:"20px",textAlign:"center",color:C.sub,marginBottom:16}}>
+              <div style={{fontSize:20,marginBottom:6}}>📭</div>
+              오늘 수집된 이슈가 없습니다 — 아래에서 직접 입력하세요
+            </div>
+          )}
           {/* 직접 주제 입력창 */}
           <div style={{background:C.s2,border:`1px solid ${C.border}`,borderRadius:10,padding:"12px 14px",marginBottom:16}}>
             <div style={{fontSize:10,color:C.sub,fontWeight:700,textTransform:"uppercase",letterSpacing:"0.07em",marginBottom:8}}>수집 목록에 없는 주제 직접 입력</div>
