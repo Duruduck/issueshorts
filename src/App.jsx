@@ -187,6 +187,7 @@ export default function App() {
 
   // ── AI 호출 헬퍼 (생성 + 재생성 공용) ──
   const callAI = async (prompt) => {
+    console.log("[callAI] 호출됨, 모델:", opts.model); // 추가
     if (opts.model==="Claude") {
       // Vercel 서버리스 함수 경유 (API 키 안전하게 숨김)
       const r = await fetch("/api/claude",{
@@ -216,7 +217,7 @@ export default function App() {
       const scenes = parseScenes(raw, Number(opts.scenes));
       setOutput({ raw, scenes, images:buildImagePrompts(topic, Number(opts.scenes), opts), upload:buildUpload(topic) });
       setOutTab("script");
-    } catch(e) { setOutput({error:e.message}); }
+    } catch(e) { setOutput({error:e.message || "알 수 없는 오류 — 브라우저 콘솔 확인"}); }
     finally { setLoading(false); }
   };
 
