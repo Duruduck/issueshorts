@@ -1,0 +1,200 @@
+[
+  {
+    "id": 1,
+    "type": "overseas",
+    "title": "Steam Machine launches today",
+    "source": "해외",
+    "from": "Hacker News",
+    "ago": "0분 전",
+    "heat": 99,
+    "url": "https://store.steampowered.com/news/group/45479024/view/685257114654870245",
+    "collected_at": "2026-06-23 14:02"
+  },
+  {
+    "id": 2,
+    "type": "overseas",
+    "title": "GLM-5.2 – How to Run Locally",
+    "source": "해외",
+    "from": "Hacker News",
+    "ago": "0분 전",
+    "heat": 53,
+    "url": "https://unsloth.ai/docs/models/glm-5.2",
+    "collected_at": "2026-06-23 14:02"
+  },
+  {
+    "id": 3,
+    "type": "overseas",
+    "title": "My Mathematical Regression",
+    "source": "해외",
+    "from": "Hacker News",
+    "ago": "0분 전",
+    "heat": 34,
+    "url": "https://blog.dahl.dev/posts/my-mathematical-regression/",
+    "collected_at": "2026-06-23 14:02"
+  },
+  {
+    "id": 4,
+    "type": "overseas",
+    "title": "Crypto in 2026: Oh, This Is the Bad Place",
+    "source": "해외",
+    "from": "Hacker News",
+    "ago": "0분 전",
+    "heat": 32,
+    "url": "https://www.stephendiehl.com/posts/bad_place_2026/",
+    "collected_at": "2026-06-23 14:02"
+  },
+  {
+    "id": 5,
+    "type": "overseas",
+    "title": "VibeThinker: 3B param model that beats Opus 4.5 on reasoning with novel SFT+GRPO",
+    "source": "해외",
+    "from": "Hacker News",
+    "ago": "0분 전",
+    "heat": 30,
+    "url": "https://arxiv.org/abs/2606.16140",
+    "collected_at": "2026-06-23 14:02"
+  },
+  {
+    "id": 6,
+    "type": "kpop",
+    "title": "Giant Banana Pulled Over: Driver Says Cops Have Stopped Him 100s of Times",
+    "source": "해외",
+    "from": "Hacker News",
+    "ago": "0분 전",
+    "heat": 8,
+    "url": "https://cowboystatedaily.com/2026/06/18/giant-banana-pulled-over-in-montana-driver-says-cops-have-stopped-him-100s-of-times/",
+    "collected_at": "2026-06-23 14:02"
+  },
+  {
+    "id": 7,
+    "type": "kpop",
+    "title": "Park Se Young Stands At The Heart Of A Family’s Deepest Wounds In “Family Register”",
+    "source": "해외",
+    "from": "Soompi",
+    "ago": "0분 전",
+    "heat": 6,
+    "url": "https://www.soompi.com/article/1849867wpp/park-se-young-stands-at-the-heart-of-a-familys-deepest-wounds-in-family-register",
+    "collected_at": "2026-06-23 14:02"
+  },
+  {
+    "id": 8,
+    "type": "kpop",
+    "title": "Variety Show “Happy Together” Announces Return With Yu Jae Seok, Jang Hang Jun, And Yoon Jong Shin",
+    "source": "해외",
+    "from": "Soompi",
+    "ago": "0분 전",
+    "heat": 6,
+    "url": "https://www.soompi.com/article/1849861wpp/variety-show-happy-together-announces-return-with-yu-jae-seok-jang-hang-jun-and-yoon-jong-shin",
+    "collected_at": "2026-06-23 14:02"
+  },
+  {
+    "id": 9,
+    "type": "kpop",
+    "title": "Shin Ye Eun Distances Herself From Lee Jae Wook In “Doctor On The Edge”",
+    "source": "해외",
+    "from": "Soompi",
+    "ago": "0분 전",
+    "heat": 6,
+    "url": "https://www.soompi.com/article/1849838wpp/shin-ye-eun-distances-herself-from-lee-jae-wook-in-doctor-on-the-edge",
+    "collected_at": "2026-06-23 14:02"
+  },
+  {
+    "id": 10,
+    "type": "kpop",
+    "title": "Hwang Jung Min, Zo In Sung, And Jung Ho Yeon Talk About Their Upcoming Film “HOPE”",
+    "source": "해외",
+    "from": "Soompi",
+    "ago": "0분 전",
+    "heat": 6,
+    "url": "https://www.soompi.com/article/1849561wpp/hwang-jung-min-zo-in-sung-and-jung-ho-yeon-talk-about-their-upcoming-film-hope",
+    "collected_at": "2026-06-23 14:02"
+  },
+  {
+    "id": 11,
+    "type": "social",
+    "title": "Kim Min Ha Dishes On Her Upcoming Film “Hana Korea,” Her Future Goals, And More",
+    "source": "해외",
+    "from": "Soompi",
+    "ago": "0분 전",
+    "heat": 6,
+    "url": "https://www.soompi.com/article/1849470wpp/kim-min-ha-dishes-on-her-upcoming-film-hana-korea-her-future-goals-and-more",
+    "collected_at": "2026-06-23 14:02"
+  },
+  {
+    "id": 12,
+    "type": "culture",
+    "title": "Jatjuk (Pine Nut Porridge)",
+    "source": "해외",
+    "from": "Korean Bapsang",
+    "ago": "0분 전",
+    "heat": 6,
+    "url": "https://www.koreanbapsang.com/jatjuk-pine-nut-porridge/",
+    "collected_at": "2026-06-23 14:02"
+  },
+  {
+    "id": 13,
+    "type": "culture",
+    "title": "Kkakdugi (Cubed Radish Kimchi)",
+    "source": "해외",
+    "from": "Korean Bapsang",
+    "ago": "0분 전",
+    "heat": 6,
+    "url": "https://www.koreanbapsang.com/kkakdugi-cubed-radish-kimchi/",
+    "collected_at": "2026-06-23 14:02"
+  },
+  {
+    "id": 14,
+    "type": "social",
+    "title": "LA Galbi (Korean BBQ Short Ribs)",
+    "source": "해외",
+    "from": "Korean Bapsang",
+    "ago": "0분 전",
+    "heat": 6,
+    "url": "https://www.koreanbapsang.com/la-galbi-gui-grilled-la-style-short-ribs/",
+    "collected_at": "2026-06-23 14:02"
+  },
+  {
+    "id": 15,
+    "type": "social",
+    "title": "20 Korean Vegan Recipes",
+    "source": "해외",
+    "from": "Korean Bapsang",
+    "ago": "0분 전",
+    "heat": 6,
+    "url": "https://www.koreanbapsang.com/15-korean-vegan-recipes/",
+    "collected_at": "2026-06-23 14:02"
+  },
+  {
+    "id": 16,
+    "type": "culture",
+    "title": "Sundubu Gyeran Guk (Soft Tofu and Egg Soup)",
+    "source": "해외",
+    "from": "Korean Bapsang",
+    "ago": "0분 전",
+    "heat": 6,
+    "url": "https://www.koreanbapsang.com/sundubu-gyeran-guk-soft-tofu-and-egg-soup/",
+    "collected_at": "2026-06-23 14:02"
+  },
+  {
+    "id": 17,
+    "type": "culture",
+    "title": "Kimbap (Seaweed Rice Rolls)",
+    "source": "해외",
+    "from": "Korean Bapsang",
+    "ago": "0분 전",
+    "heat": 6,
+    "url": "https://www.koreanbapsang.com/gimbapkimbap-korean-dried-seaweed-rolls/",
+    "collected_at": "2026-06-23 14:02"
+  },
+  {
+    "id": 18,
+    "type": "season",
+    "title": "Gochu Doenjang Muchim (Green Chili Peppers Seasoned with Doenjang)",
+    "source": "해외",
+    "from": "Korean Bapsang",
+    "ago": "0분 전",
+    "heat": 6,
+    "url": "https://www.koreanbapsang.com/gochu-doenjang-muchim/",
+    "collected_at": "2026-06-23 14:02"
+  }
+]
