@@ -2,15 +2,7 @@
 scripts/collect.py
 국내외 소스에서 트렌딩 이슈를 수집해 public/topics.json 생성
 
-소스:
-  [국내 커뮤니티]  에펨코리아, 루리웹, 클리앙 RSS
-  [국내 뉴스]      연합뉴스 연예/사회 RSS
-  [해외 이슈]      Google Trends (US), Hacker News API
-  [국내 선택]       네이버 DataLab
-
-핵심 원칙:
-  - 점수는 소스별 순위 기반 정규화 (원시 숫자 비교 X)
-  - 국내/해외 균형 보장 (각 최소 40%)
+선발 원칙: 카테고리별 TOP 5 보장 (빈 카테고리 방지)
 """
 
 import os
@@ -18,6 +10,7 @@ import json
 import time
 from datetime import datetime, timedelta
 from pathlib import Path
+from collections import defaultdict
 
 try:
     import feedparser
@@ -33,22 +26,31 @@ except ImportError:
 
 OUTPUT = Path(__file__).parent.parent / "public" / "topics.json"
 
+CATEGORIES = ["kpop", "social", "culture", "overseas", "beauty", "living", "season"]
+
 # ── 카테고리 자동 분류 ────────────────────────────────────────
 
 CATEGORY_RULES = {
     "kpop":    ["bts","blackpink","aespa","newjeans","ive","stray kids","seventeen",
                 "twice","exo","nct","kpop","k-pop","아이돌","케이팝","컴백","팬덤",
-                "concert","comeback","뮤비","음반","데뷔","걸그룹","보이그룹"],
+                "뮤비","음반","데뷔","걸그룹","보이그룹","콘서트","팬미팅","월드투어",
+                "melon","gaon","hanteo","빌보드","그래미","엠카","인기가요"],
     "social":  ["탈북","북한","사건","사고","논란","화제","유튜버","실화","인물",
-                "스토리","검찰","경찰","정치","사회","연예인","배우","가수"],
-    "culture": ["한식","요리","레시피","맛집","음식","food","recipe","kimchi",
-                "bibimbap","ramen","k-food","mukbang","먹방"],
+                "검찰","경찰","정치","연예인","배우","가수","스캔들","논란","고소",
+                "결혼","이혼","열애","열정","폭로","사망","부고"],
+    "culture": ["한식","요리","레시피","맛집","음식","먹방","food","recipe","kimchi",
+                "bibimbap","ramen","tteokbokki","bulgogi","k-food","mukbang",
+                "식당","쉐프","맛집","미슐랭","스트리트푸드"],
     "beauty":  ["뷰티","스킨케어","화장품","선크림","세럼","립","쿠션","파운데이션",
-                "beauty","skincare","makeup","sunscreen","serum","k-beauty"],
+                "마스크팩","토너","에센스","클렌저","비비크림","틴트","글로우",
+                "beauty","skincare","makeup","sunscreen","serum","k-beauty",
+                "올리브영","화해","아이오페","라네즈","설화수","이니스프리"],
     "living":  ["다이소","주방","청소","생활용품","정리","가전","핫딜","할인",
-                "가성비","추천","구매","kitchen","home","gadget","deal"],
-    "season":  ["시즌","여름","겨울","봄","가을","필수템","품절","seasonal",
-                "summer","winter","spring","fall","신상","출시"],
+                "가성비","추천","구매","리뷰","언박싱","직구","쿠팡","11번가",
+                "kitchen","home","gadget","deal","amazon","product"],
+    "season":  ["여름","겨울","봄","가을","시즌","필수템","품절","신상","출시",
+                "여행","휴가","피서","캠핑","페스티벌","summer","winter","spring",
+                "fall","seasonal","무더위","장마","태풍","한파","황사"],
 }
 
 def classify(text: str) -> str:
@@ -58,8 +60,8 @@ def classify(text: str) -> str:
             return cat
     return None
 
-def rank_score(rank: int, total: int = 20) -> int:
-    """순위 기반 점수 (1위=100, 꼴찌=50) — 소스 간 공평 비교"""
+def rank_score(rank: int, total: int) -> int:
+    """순위 기반 점수 100→50 (소스 간 공평 비교)"""
     return max(50, 100 - int((rank - 1) / max(total - 1, 1) * 50))
 
 def format_ago(dt: datetime) -> str:
@@ -68,17 +70,79 @@ def format_ago(dt: datetime) -> str:
     if mins < 60:
         return f"{mins}분 전"
     hours = mins // 60
-    if hours < 24:
-        return f"{hours}시간 전"
-    return f"{hours // 24}일 전"
+    return f"{hours}시간 전" if hours < 24 else f"{hours // 24}일 전"
 
 def now_str() -> str:
     return datetime.now().strftime("%Y-%m-%d %H:%M")
 
+def parse_rss(feeds: list[dict], limit: int = 15) -> list[dict]:
+    """공통 RSS 파싱 함수"""
+    if not FEED_OK:
+        return []
+    results = []
+    for f in feeds:
+        try:
+            entries = [e for e in feedparser.parse(f["url"]).entries
+                       if e.get("title","").strip()][:limit]
+            for rank, e in enumerate(entries, 1):
+                title = e["title"].strip()
+                results.append({
+                    "type":   classify(title) or f["type"],
+                    "title":  title,
+                    "source": f["source"],
+                    "from":   f["name"],
+                    "url":    e.get("link",""),
+                    "score":  rank_score(rank, len(entries)),
+                    "collected_at": now_str(),
+                })
+            print(f"  [{f['name']}] {len(entries)}개")
+            time.sleep(0.3)
+        except Exception as ex:
+            print(f"  [{f['name']}] 실패: {ex}")
+    return results
 
-# ── 1. 국내 커뮤니티 RSS ──────────────────────────────────────
 
-COMMUNITY_RSS = [
+# ── 1. K-pop/연예 전용 ────────────────────────────────────────
+
+KPOP_RSS = [
+    {"name":"연합뉴스/연예",    "url":"https://www.yna.co.kr/rss/entertainment.xml",
+     "source":"국내", "type":"kpop"},
+    {"name":"마이데일리/연예",   "url":"https://www.mydaily.co.kr/rss/allnews.xml",
+     "source":"국내", "type":"kpop"},
+    {"name":"스포츠경향/연예",   "url":"https://sports.khan.co.kr/rss/entertainments.xml",
+     "source":"국내", "type":"kpop"},
+]
+
+# ── 2. 사회/인물 전용 ─────────────────────────────────────────
+
+SOCIAL_RSS = [
+    {"name":"연합뉴스/사회",   "url":"https://www.yna.co.kr/rss/society.xml",
+     "source":"국내", "type":"social"},
+    {"name":"연합뉴스/정치",   "url":"https://www.yna.co.kr/rss/politics.xml",
+     "source":"국내", "type":"social"},
+]
+
+# ── 3. 한식/문화 전용 ─────────────────────────────────────────
+
+CULTURE_RSS = [
+    {"name":"연합뉴스/생활",   "url":"https://www.yna.co.kr/rss/lifestyle.xml",
+     "source":"국내", "type":"culture"},
+    {"name":"연합뉴스/문화",   "url":"https://www.yna.co.kr/rss/culture.xml",
+     "source":"국내", "type":"culture"},
+]
+
+# ── 4. 뷰티/패션 전용 ─────────────────────────────────────────
+
+BEAUTY_RSS = [
+    {"name":"연합뉴스/패션뷰티", "url":"https://www.yna.co.kr/rss/fashion-beauty.xml",
+     "source":"국내", "type":"beauty"},
+    {"name":"헬스조선",          "url":"https://health.chosun.com/rss/contents.xml",
+     "source":"국내", "type":"beauty"},
+]
+
+# ── 5. 생활용품/주방 전용 ─────────────────────────────────────
+
+LIVING_RSS = [
     {"name":"에펨코리아/핫딜",  "url":"https://www.fmkorea.com/index.php?mid=hotdeal&act=rss",
      "source":"국내", "type":"living"},
     {"name":"에펨코리아/가성비", "url":"https://www.fmkorea.com/index.php?mid=frugal&act=rss",
@@ -89,89 +153,32 @@ COMMUNITY_RSS = [
      "source":"국내", "type":"living"},
 ]
 
-def collect_community_rss() -> list[dict]:
-    if not FEED_OK:
-        print("[커뮤니티RSS] feedparser 없음, 스킵"); return []
-    results = []
-    for f in COMMUNITY_RSS:
-        try:
-            feed = feedparser.parse(f["url"])
-            entries = [e for e in feed.entries if e.get("title","").strip()][:15]
-            for rank, entry in enumerate(entries, start=1):
-                title = entry["title"].strip()
-                results.append({
-                    "type":   classify(title) or f["type"],
-                    "title":  title,
-                    "source": f["source"],
-                    "from":   f["name"],
-                    "url":    entry.get("link",""),
-                    "score":  rank_score(rank, len(entries)),
-                    "collected_at": now_str(),
-                })
-            print(f"  [{f['name']}] {len(entries)}개")
-            time.sleep(0.3)
-        except Exception as e:
-            print(f"  [{f['name']}] 실패: {e}")
-    print(f"[커뮤니티RSS] 총 {len(results)}개")
-    return results
+# ── 6. 시즌아이템 전용 ────────────────────────────────────────
 
-
-# ── 2. 국내 뉴스 RSS ──────────────────────────────────────────
-
-NEWS_RSS = [
-    {"name":"연합뉴스/연예",  "url":"https://www.yna.co.kr/rss/entertainment.xml",
-     "source":"국내", "type":"kpop"},
-    {"name":"연합뉴스/사회",  "url":"https://www.yna.co.kr/rss/society.xml",
-     "source":"국내", "type":"social"},
-    {"name":"연합뉴스/생활",  "url":"https://www.yna.co.kr/rss/lifestyle.xml",
-     "source":"국내", "type":"living"},
+SEASON_RSS = [
+    {"name":"연합뉴스/경제",   "url":"https://www.yna.co.kr/rss/economy.xml",
+     "source":"국내", "type":"season"},
 ]
 
-def collect_news_rss() -> list[dict]:
-    if not FEED_OK:
-        print("[뉴스RSS] feedparser 없음, 스킵"); return []
-    results = []
-    for f in NEWS_RSS:
-        try:
-            feed = feedparser.parse(f["url"])
-            entries = [e for e in feed.entries if e.get("title","").strip()][:10]
-            for rank, entry in enumerate(entries, start=1):
-                title = entry["title"].strip()
-                results.append({
-                    "type":   classify(title) or f["type"],
-                    "title":  title,
-                    "source": f["source"],
-                    "from":   f["name"],
-                    "url":    entry.get("link",""),
-                    "score":  rank_score(rank, len(entries)),
-                    "collected_at": now_str(),
-                })
-            print(f"  [{f['name']}] {len(entries)}개")
-            time.sleep(0.3)
-        except Exception as e:
-            print(f"  [{f['name']}] 실패: {e}")
-    print(f"[뉴스RSS] 총 {len(results)}개")
-    return results
-
-
-# ── 3. Google Trends (해외) ──────────────────────────────────
+# ── 7. 해외 이슈 ──────────────────────────────────────────────
 
 def collect_google_trends() -> list[dict]:
     if not FEED_OK:
-        print("[Google Trends] feedparser 없음, 스킵"); return []
+        return []
     results = []
-    url = "https://trends.google.com/trends/trendingsearches/daily/rss?geo=US"
     try:
-        feed = feedparser.parse(url)
+        feed = feedparser.parse(
+            "https://trends.google.com/trends/trendingsearches/daily/rss?geo=US"
+        )
         entries = [e for e in feed.entries if e.get("title","").strip()][:15]
-        for rank, entry in enumerate(entries, start=1):
-            title = entry["title"].strip()
+        for rank, e in enumerate(entries, 1):
+            title = e["title"].strip()
             results.append({
                 "type":   classify(title) or "overseas",
                 "title":  title,
                 "source": "해외",
                 "from":   "Google Trends (US)",
-                "url":    entry.get("link",""),
+                "url":    e.get("link",""),
                 "score":  rank_score(rank, len(entries)),
                 "collected_at": now_str(),
             })
@@ -180,24 +187,18 @@ def collect_google_trends() -> list[dict]:
         print(f"[Google Trends] 실패: {e}")
     return results
 
-
-# ── 4. Hacker News ───────────────────────────────────────────
-
 def collect_hackernews(limit: int = 15) -> list[dict]:
     if not REQ_OK:
-        print("[HackerNews] requests 없음, 스킵"); return []
+        return []
     results = []
     try:
         ids = requests.get(
-            "https://hacker-news.firebaseio.com/v0/topstories.json",
-            timeout=10
+            "https://hacker-news.firebaseio.com/v0/topstories.json", timeout=10
         ).json()[:limit]
-
-        for rank, story_id in enumerate(ids, start=1):
+        for rank, sid in enumerate(ids, 1):
             try:
                 item = requests.get(
-                    f"https://hacker-news.firebaseio.com/v0/item/{story_id}.json",
-                    timeout=5
+                    f"https://hacker-news.firebaseio.com/v0/item/{sid}.json", timeout=5
                 ).json()
                 title = item.get("title","").strip()
                 if not title:
@@ -207,8 +208,8 @@ def collect_hackernews(limit: int = 15) -> list[dict]:
                     "title":  title,
                     "source": "해외",
                     "from":   "Hacker News",
-                    "url":    item.get("url", f"https://news.ycombinator.com/item?id={story_id}"),
-                    "score":  rank_score(rank, limit),   # 순위 기반 (원시 업보트 X)
+                    "url":    item.get("url", f"https://news.ycombinator.com/item?id={sid}"),
+                    "score":  rank_score(rank, limit),
                     "collected_at": now_str(),
                 })
             except Exception:
@@ -218,8 +219,7 @@ def collect_hackernews(limit: int = 15) -> list[dict]:
         print(f"[HackerNews] 실패: {e}")
     return results
 
-
-# ── 5. 네이버 DataLab (선택) ─────────────────────────────────
+# ── 8. 네이버 DataLab (선택) ─────────────────────────────────
 
 NAVER_CATS = [
     {"name":"뷰티",     "categoryId":"50000002", "type":"beauty"},
@@ -239,12 +239,14 @@ def collect_naver() -> list[dict]:
     try:
         resp = requests.post(
             "https://openapi.naver.com/v1/datalab/shopping/categories",
-            headers={"X-Naver-Client-Id":cid,"X-Naver-Client-Secret":cs,"Content-Type":"application/json"},
+            headers={"X-Naver-Client-Id":cid,"X-Naver-Client-Secret":cs,
+                     "Content-Type":"application/json"},
             json={
                 "startDate": (today - timedelta(days=7)).strftime("%Y-%m-%d"),
                 "endDate":   today.strftime("%Y-%m-%d"),
                 "timeUnit":  "date",
-                "category":  [{"name":c["name"],"param":[{"name":c["name"],"categoryId":c["categoryId"]}]} for c in NAVER_CATS],
+                "category":  [{"name":c["name"],"param":[{"name":c["name"],
+                               "categoryId":c["categoryId"]}]} for c in NAVER_CATS],
             },
             timeout=10,
         )
@@ -267,40 +269,24 @@ def collect_naver() -> list[dict]:
     return results
 
 
-# ── 점수 산정 & 국내/해외 균형 TOP 20 ────────────────────────
+# ── 카테고리별 TOP 5 선발 ────────────────────────────────────
 
-def select_balanced(items: list[dict], n: int = 20) -> list[dict]:
-    if not items: return []
+def select_per_category(items: list[dict], top_n: int = 5) -> list[dict]:
+    """
+    각 카테고리에서 점수 상위 top_n개 선발.
+    빈 카테고리 방지 — 수집 부족 시 overseas/social에서 재분류해 채움.
+    """
+    # 카테고리별 그룹화
+    by_cat: dict[str, list] = defaultdict(list)
+    for item in sorted(items, key=lambda x: x["score"], reverse=True):
+        by_cat[item["type"]].append(item)
 
-    domestic = [i for i in items if i["source"] == "국내"]
-    overseas = [i for i in items if i["source"] == "해외"]
+    # 카테고리별 TOP N 선발
+    result = []
+    for cat in CATEGORIES:
+        result.extend(by_cat[cat][:top_n])
 
-    from collections import Counter
-
-    def pick(pool, count, cat_limit=3):
-        cat_count: Counter = Counter()
-        selected = []
-        for item in sorted(pool, key=lambda x: x["score"], reverse=True):
-            if cat_count[item["type"]] < cat_limit:
-                selected.append(item)
-                cat_count[item["type"]] += 1
-            if len(selected) >= count:
-                break
-        return selected
-
-    # 국내 40% 이상, 해외 40% 이상 보장
-    domestic_n = max(int(n * 0.45), 8)
-    overseas_n = max(n - domestic_n, 8)
-
-    top = pick(domestic, domestic_n) + pick(overseas, overseas_n)
-
-    # 부족하면 나머지로 채우기
-    if len(top) < n:
-        used = set(id(i) for i in top)
-        rest = [i for i in items if id(i) not in used]
-        top += pick(rest, n - len(top))
-
-    return top[:n]
+    return result
 
 
 # ── 출력 포맷 ─────────────────────────────────────────────────
@@ -336,29 +322,42 @@ def main():
 
     all_items = []
 
-    print("\n[1/5] 국내 커뮤니티 RSS...")
-    all_items.extend(collect_community_rss())
+    print("\n[K-pop/연예] 수집...")
+    all_items.extend(parse_rss(KPOP_RSS))
 
-    print("\n[2/5] 국내 뉴스 RSS...")
-    all_items.extend(collect_news_rss())
+    print("\n[사회/인물] 수집...")
+    all_items.extend(parse_rss(SOCIAL_RSS))
 
-    print("\n[3/5] Google Trends (US)...")
+    print("\n[한식/문화] 수집...")
+    all_items.extend(parse_rss(CULTURE_RSS))
+
+    print("\n[뷰티/패션] 수집...")
+    all_items.extend(parse_rss(BEAUTY_RSS))
+
+    print("\n[생활용품/주방] 수집...")
+    all_items.extend(parse_rss(LIVING_RSS))
+
+    print("\n[시즌아이템] 수집...")
+    all_items.extend(parse_rss(SEASON_RSS))
+
+    print("\n[해외 이슈] Google Trends...")
     all_items.extend(collect_google_trends())
 
-    print("\n[4/5] Hacker News...")
+    print("\n[해외 이슈] Hacker News...")
     all_items.extend(collect_hackernews(limit=15))
 
-    print("\n[5/5] 네이버 DataLab...")
+    print("\n[국내 선택] 네이버 DataLab...")
     all_items.extend(collect_naver())
 
     print(f"\n총 {len(all_items)}개 수집")
 
     if not all_items:
-        print("수집 결과 없음 — 빈 배열 저장")
+        print("수집 결과 없음")
         OUTPUT.write_text("[]", encoding="utf-8")
         return
 
-    top    = select_balanced(all_items, n=20)
+    # 카테고리별 TOP 5 선발
+    top    = select_per_category(all_items, top_n=5)
     output = format_output(top)
 
     OUTPUT.parent.mkdir(parents=True, exist_ok=True)
@@ -367,9 +366,12 @@ def main():
     from collections import Counter
     type_dist = Counter(item["type"]   for item in output)
     src_dist  = Counter(item["source"] for item in output)
-    print(f"\n✅ {len(output)}개 저장")
-    print(f"  카테고리: {dict(type_dist)}")
-    print(f"  소스:     국내 {src_dist['국내']}개 | 해외 {src_dist['해외']}개")
+    print(f"\n✅ 총 {len(output)}개 저장")
+    for cat in CATEGORIES:
+        cnt = type_dist.get(cat, 0)
+        bar = "█" * cnt + "░" * (5 - cnt)
+        print(f"  {cat:10} {bar} {cnt}/5")
+    print(f"\n  국내: {src_dist.get('국내',0)}개 | 해외: {src_dist.get('해외',0)}개")
 
 
 if __name__ == "__main__":
