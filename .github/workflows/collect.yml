@@ -6,7 +6,7 @@ on:
   workflow_dispatch:        # 수동 실행 버튼 (테스트용)
 
 permissions:
-  contents: write           # topics.json 푸시 권한
+  contents: write
 
 jobs:
   collect:
@@ -28,8 +28,8 @@ jobs:
 
       - name: 이슈 수집
         env:
-          NAVER_CLIENT_ID:      ${{ secrets.NAVER_CLIENT_ID }}
-          NAVER_CLIENT_SECRET:  ${{ secrets.NAVER_CLIENT_SECRET }}
+          NAVER_CLIENT_ID:     ${{ secrets.NAVER_CLIENT_ID }}
+          NAVER_CLIENT_SECRET: ${{ secrets.NAVER_CLIENT_SECRET }}
         run: python scripts/collect.py
 
       - name: topics.json 커밋 & 푸시
@@ -37,5 +37,7 @@ jobs:
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add public/topics.json
-          git diff --staged --quiet || git commit -m "chore: topics.json 업데이트 $(date +'%Y-%m-%d %H:%M KST')"
+          git diff --staged --quiet && echo "변경 없음, 스킵" && exit 0
+          git commit -m "chore: topics.json 업데이트 $(date +'%Y-%m-%d %H:%M KST')"
+          git pull origin main --rebase
           git push
