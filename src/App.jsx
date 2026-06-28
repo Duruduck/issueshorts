@@ -17,7 +17,6 @@ const TYPES = {
   season:   { label:"시즌아이템",  emoji:"🌸", color:"#32ADE6" },
 };
 
-
 const STRUCTURES = {
   kpop:     ["훅: 충격 사실 제시","발견 경로 설명","팬/커뮤니티 반응","인물·제품 핵심","화제 포인트 1","화제 포인트 2","현재 상황/결말","CTA: 댓글 유도"],
   social:   ["훅: 실화임?","배경 설명","사건 전개 1","사건 전개 2","사건 전개 3","반전 or 핵심","의미·파장","CTA: 저장 유도"],
@@ -28,32 +27,28 @@ const STRUCTURES = {
   season:   ["훅: 지금 이 시즌에 필수","시즌 이유 설명","아이템 1 소개","아이템 2 소개","아이템 3 소개","가격·할인 정보","품절 urgency","CTA: 저장 유도"],
 };
 
+// ── 수집 시간 → 경과 시간 실시간 계산 ──────────────────────
+function formatAgo(collectedAt) {
+  if (!collectedAt) return "오늘";
+  try {
+    const dt = new Date(collectedAt.replace(" ", "T"));
+    const mins = Math.floor((Date.now() - dt.getTime()) / 60000);
+    if (mins < 1)  return "방금 전";
+    if (mins < 60) return `${mins}분 전`;
+    const hours = Math.floor(mins / 60);
+    if (hours < 24) return `${hours}시간 전`;
+    return `${Math.floor(hours / 24)}일 전`;
+  } catch { return "오늘"; }
+}
+
 function buildPrompt(topic, opts) {
   const struct = (STRUCTURES[topic.type] || STRUCTURES.overseas).slice(0, Number(opts.scenes));
-  return `당신은 한국 유튜브 쇼츠 대본 전문 작가입니다.
-
-주제: ${topic.title}
-유형: ${TYPES[topic.type]?.label} | 톤: ${opts.tone} | 목표: ${opts.goal} | 훅: ${opts.hook}형
-장면 수: ${opts.scenes}개 | 길이: ${opts.duration}
-
-[장면 구조]
-${struct.map((s,i) => `장면${i+1}: ${s}`).join('\n')}
-
-[출력 형식 - 반드시 이 형식만 사용]
-장면1
-자막: (15자 이내)
-나레이션: (구어체, ${opts.duration==="30초"?"1~2문장":"2~3문장"})
-
-장면2
-자막: ...
-나레이션: ...
-
-규칙: 훅은 첫 1.5초에 시청자를 멈추게 할 것. 전체 낭독 ${opts.duration==="30초"?"25~35":"50~60"}초. 마크다운 기호 없이 순수 텍스트만.`;
+  return `당신은 한국 유튜브 쇼츠 대본 전문 작가입니다.\n\n주제: ${topic.title}\n유형: ${TYPES[topic.type]?.label} | 톤: ${opts.tone} | 목표: ${opts.goal} | 훅: ${opts.hook}형\n장면 수: ${opts.scenes}개 | 길이: ${opts.duration}\n\n[장면 구조]\n${struct.map((s,i) => `장면${i+1}: ${s}`).join('\n')}\n\n[출력 형식 - 반드시 이 형식만 사용]\n장면1\n자막: (15자 이내)\n나레이션: (구어체, ${opts.duration==="30초"?"1~2문장":"2~3문장"})\n\n장면2\n자막: ...\n나레이션: ...\n\n규칙: 훅은 첫 1.5초에 시청자를 멈추게 할 것. 전체 낭독 ${opts.duration==="30초"?"25~35":"50~60"}초. 마크다운 기호 없이 순수 텍스트만.`;
 }
 
 function buildImagePrompts(topic, count, opts) {
   const style = opts.imageStyle==="실사 사진형" ? "photorealistic editorial photography" : "flat design vector illustration";
-  const color = {밝고경쾌한:"bright vibrant warm","다크·심플":"dark minimal monochrome",파스텔:"soft pastel dreamy"}[opts.imageColor.replace(" ","")] || "bright vibrant";
+  const color = {"밝고 경쾌한":"bright vibrant warm","다크·심플":"dark minimal monochrome","파스텔":"soft pastel dreamy"}[opts.imageColor] || "bright vibrant";
   const txt = opts.imageText==="자막 포함" ? "space for Korean subtitle at bottom" : "no text pure visual";
   return Array.from({length:count},(_,i)=>
     `[장면 ${i+1}]\n${style}, ${color} palette, ${txt}, vertical 9:16\nVisual: ${topic.title} scene ${i+1}\nMood: ${TYPES[topic.type]?.label} Korean Shorts content`
@@ -89,11 +84,8 @@ function buildUpload(topic) {
 const STATUS_C = {"대기중":C.sub,"촬영중":C.amber,"완료":C.green};
 const cp = t => navigator.clipboard.writeText(t).catch(()=>{});
 
-// ── Sub Components ──────────────────────────────────────
 const Pill = ({active,color,onClick,children}) => (
-  <button onClick={onClick} style={{background:active?color+"20":"transparent",border:`1px solid ${active?color:C.border}`,color:active?color:C.sub,borderRadius:20,padding:"4px 13px",cursor:"pointer",fontSize:12,fontWeight:active?700:400}}>
-    {children}
-  </button>
+  <button onClick={onClick} style={{background:active?color+"20":"transparent",border:`1px solid ${active?color:C.border}`,color:active?color:C.sub,borderRadius:20,padding:"4px 13px",cursor:"pointer",fontSize:12,fontWeight:active?700:400}}>{children}</button>
 );
 const Card = ({children,style={}}) => (
   <div style={{background:C.s2,border:`1px solid ${C.border}`,borderRadius:10,padding:"13px 14px",...style}}>{children}</div>
@@ -101,22 +93,13 @@ const Card = ({children,style={}}) => (
 const Lbl = ({children}) => (
   <div style={{fontSize:10,color:C.sub,fontWeight:700,textTransform:"uppercase",letterSpacing:"0.07em",marginBottom:8}}>{children}</div>
 );
-const OptCard = ({title,children}) => (
-  <Card style={{marginBottom:8}}><Lbl>{title}</Lbl>{children}</Card>
-);
+const OptCard = ({title,children}) => (<Card style={{marginBottom:8}}><Lbl>{title}</Lbl>{children}</Card>);
 const Chips = ({opts,val,onChange}) => (
   <div style={{display:"flex",gap:5,flexWrap:"wrap"}}>
-    {opts.map(o=>(
-      <button key={o} onClick={()=>onChange(o)}
-        style={{background:val===o?C.accent+"22":"transparent",border:`1px solid ${val===o?C.accent:C.border}`,color:val===o?C.accent:C.sub,borderRadius:6,padding:"4px 10px",cursor:"pointer",fontSize:11,fontWeight:val===o?700:400}}>
-        {o}
-      </button>
-    ))}
+    {opts.map(o=>(<button key={o} onClick={()=>onChange(o)} style={{background:val===o?C.accent+"22":"transparent",border:`1px solid ${val===o?C.accent:C.border}`,color:val===o?C.accent:C.sub,borderRadius:6,padding:"4px 10px",cursor:"pointer",fontSize:11,fontWeight:val===o?700:400}}>{o}</button>))}
   </div>
 );
-const Tag = ({color,children}) => (
-  <span style={{background:color+"20",color,fontSize:9,fontWeight:700,padding:"1px 6px",borderRadius:4}}>{children}</span>
-);
+const Tag = ({color,children}) => (<span style={{background:color+"20",color,fontSize:9,fontWeight:700,padding:"1px 6px",borderRadius:4}}>{children}</span>);
 const OutBlock = ({title,text,children}) => (
   <div style={{background:C.s2,border:`1px solid ${C.border}`,borderRadius:10,padding:"12px 14px",marginBottom:10}}>
     <div style={{display:"flex",justifyContent:"space-between",marginBottom:10}}>
@@ -127,7 +110,6 @@ const OutBlock = ({title,text,children}) => (
   </div>
 );
 
-// ── Main ────────────────────────────────────────────────
 export default function App() {
   const [tab, setTab] = useState("trends");
   const [typeF, setTypeF] = useState("all");
@@ -137,10 +119,10 @@ export default function App() {
   const [loading, setLoading] = useState(false);
   const [output, setOutput] = useState(null);
   const [queue, setQueue] = useState([]);
-  const [regenIdx, setRegenIdx] = useState(null);   // 재생성 중인 장면 인덱스
-  const [directInput, setDirectInput] = useState("");  // 직접 입력 주제
-  const [directType, setDirectType] = useState("kpop"); // 직접 입력 유형
-  const [editText, setEditText] = useState({});      // 장면별 수정 지시 입력값
+  const [regenIdx, setRegenIdx] = useState(null);
+  const [directInput, setDirectInput] = useState("");
+  const [directType, setDirectType] = useState("kpop");
+  const [editText, setEditText] = useState({});
   const [opts, setOpts] = useState({
     tone:"정보형", goal:"시청지속률", hook:"충격형", scenes:8, duration:"60초",
     model:"Claude", imageStyle:"실사 사진형", imageColor:"밝고 경쾌한", imageText:"자막 포함",
@@ -157,36 +139,17 @@ export default function App() {
       .catch(e => { setTopicsError(e.message); setTopicsLoading(false); });
   }, []);
 
-
   const filtered = topics.filter(m=>(typeF==="all"||m.type===typeF)&&(srcF==="전체"||m.source===srcF));
-
   const pickTopic = t => { setTopic(t); setOutput(null); setTab("generate"); };
-
   const submitDirect = () => {
-    const title = directInput.trim();
-    if (!title) return;
-    const custom = {
-      id: Date.now(),
-      type: directType,
-      title,
-      source: "직접입력",
-      from: "직접입력",
-      ago: "방금",
-      heat: 100,
-    };
+    const title = directInput.trim(); if (!title) return;
+    pickTopic({ id:Date.now(), type:directType, title, source:"직접입력", from:"직접입력", collected_at:new Date().toISOString(), heat:100 });
     setDirectInput("");
-    pickTopic(custom);
   };
 
-  // ── AI 호출 헬퍼 (생성 + 재생성 공용) ──
   const callAI = async (prompt) => {
     if (opts.model==="Claude") {
-      // Vercel 서버리스 함수 경유 (API 키 안전하게 숨김)
-      const r = await fetch("/api/claude",{
-        method:"POST",
-        headers:{"Content-Type":"application/json"},
-        body:JSON.stringify({prompt}),
-      });
+      const r = await fetch("/api/claude",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({prompt})});
       const d = await r.json();
       if (!r.ok) throw new Error(d.error||("오류 "+r.status));
       if (!d.text) throw new Error("빈 응답");
@@ -211,7 +174,6 @@ export default function App() {
     finally { setLoading(false); }
   };
 
-  // ── 장면별 재생성 ──
   const regenScene = async (idx) => {
     if (!output?.scenes?.[idx]) return;
     const instr = (editText[idx]||"").trim();
@@ -219,28 +181,11 @@ export default function App() {
     const cur = output.scenes[idx];
     setRegenIdx(idx);
     try {
-      const prompt = `당신은 한국 유튜브 쇼츠 대본 작가입니다.
-주제: ${topic.title}
-아래는 장면 ${idx+1}의 현재 내용입니다.
-자막: ${cur.subtitle}
-나레이션: ${cur.naration}
-
-수정 지시: ${instr}
-
-[출력 형식 - 이것만 출력]
-자막: (15자 이내)
-나레이션: (구어체 ${opts.duration==="30초"?"1~2문장":"2~3문장"})
-
-마크다운 기호 없이 순수 텍스트만.`;
+      const prompt = `당신은 한국 유튜브 쇼츠 대본 작가입니다.\n주제: ${topic.title}\n장면 ${idx+1} 현재 내용:\n자막: ${cur.subtitle}\n나레이션: ${cur.naration}\n\n수정 지시: ${instr}\n\n[출력 형식]\n자막: (15자 이내)\n나레이션: (구어체 ${opts.duration==="30초"?"1~2문장":"2~3문장"})\n\n순수 텍스트만.`;
       const raw = await callAI(prompt);
       const sub = raw.match(/자막:\s*(.+)/);
       const nar = raw.match(/나레이션:\s*([\s\S]+)/);
-      const updated = {
-        ...cur,
-        subtitle: sub?.[1]?.trim()||cur.subtitle,
-        naration: nar?.[1]?.trim().replace(/\n/g," ")||cur.naration,
-      };
-      // 해당 인덱스만 교체 (다른 장면 보존)
+      const updated = {...cur, subtitle:sub?.[1]?.trim()||cur.subtitle, naration:nar?.[1]?.trim().replace(/\n/g," ")||cur.naration};
       setOutput(o=>({...o, scenes:o.scenes.map((s,i)=>i===idx?updated:s)}));
       setEditText(e=>({...e,[idx]:""}));
     } catch(e) { alert("재생성 실패: "+e.message); }
@@ -253,135 +198,70 @@ export default function App() {
   };
 
   return (
-    <div style={{background:C.bg,minHeight:"100vh",color:C.text,fontFamily:"'Apple SD Gothic Neo','Malgun Gothic','Segoe UI',sans-serif",fontSize:13}}>
-      {/* NAV */}
+    <div style={{background:C.bg,minHeight:"100vh",color:C.text,fontFamily:"'Apple SD Gothic Neo','Malgun Gothic',sans-serif",fontSize:13}}>
       <nav style={{background:C.s1,borderBottom:`1px solid ${C.border}`,padding:"0 20px",position:"sticky",top:0,zIndex:10}}>
         <div style={{maxWidth:960,margin:"0 auto",display:"flex",alignItems:"center",height:48,gap:4}}>
-          <div style={{fontWeight:900,fontSize:15,letterSpacing:"-0.03em",marginRight:20,color:C.text}}>
-            <span style={{color:C.accent}}>●</span> ISSUESHORTS
-          </div>
+          <div style={{fontWeight:900,fontSize:15,letterSpacing:"-0.03em",marginRight:20,color:C.text}}><span style={{color:C.accent}}>●</span> ISSUESHORTS</div>
           {[["trends","🔥 이슈"],["generate","✏️ 대본"],["queue",`📋 큐${queue.length?` (${queue.length})`:""}`]].map(([k,l])=>(
-            <button key={k} onClick={()=>setTab(k)}
-              style={{background:"none",border:"none",cursor:"pointer",padding:"0 14px",height:"100%",
-                color:tab===k?C.text:C.sub,fontWeight:tab===k?700:400,fontSize:13,
-                borderBottom:tab===k?`2px solid ${C.accent}`:"2px solid transparent"}}>
-              {l}
-            </button>
+            <button key={k} onClick={()=>setTab(k)} style={{background:"none",border:"none",cursor:"pointer",padding:"0 14px",height:"100%",color:tab===k?C.text:C.sub,fontWeight:tab===k?700:400,fontSize:13,borderBottom:tab===k?`2px solid ${C.accent}`:"2px solid transparent"}}>{l}</button>
           ))}
         </div>
       </nav>
-
       <div style={{maxWidth:960,margin:"0 auto",padding:"20px 20px 80px"}}>
-
-        {/* ── TRENDS ── */}
         {tab==="trends" && <>
-          {/* 수집 상태 표시 */}
-          {topicsLoading && (
-            <div style={{background:C.s2,border:`1px solid ${C.border}`,borderRadius:10,padding:"20px",textAlign:"center",color:C.sub,marginBottom:16}}>
-              <div style={{fontSize:20,marginBottom:6}}>⏳</div>
-              이슈 수집 중...
-            </div>
-          )}
-          {topicsError && (
-            <div style={{background:"#1A0508",border:`1px solid ${C.accent}44`,borderRadius:10,padding:"14px 16px",marginBottom:16,color:C.accent,fontSize:13}}>
-              ⚠️ {topicsError} — 직접 입력창을 이용해주세요
-            </div>
-          )}
-          {!topicsLoading && !topicsError && topics.length === 0 && (
-            <div style={{background:C.s2,border:`1px solid ${C.border}`,borderRadius:10,padding:"20px",textAlign:"center",color:C.sub,marginBottom:16}}>
-              <div style={{fontSize:20,marginBottom:6}}>📭</div>
-              오늘 수집된 이슈가 없습니다 — 아래에서 직접 입력하세요
-            </div>
-          )}
-          {/* 직접 주제 입력창 */}
+          {topicsLoading && <div style={{background:C.s2,border:`1px solid ${C.border}`,borderRadius:10,padding:"20px",textAlign:"center",color:C.sub,marginBottom:16}}><div style={{fontSize:20,marginBottom:6}}>⏳</div>이슈 불러오는 중...</div>}
+          {topicsError && <div style={{background:"#1A0508",border:`1px solid ${C.accent}44`,borderRadius:10,padding:"14px 16px",marginBottom:16,color:C.accent,fontSize:13}}>⚠️ {topicsError} — 직접 입력창을 이용해주세요</div>}
+          {!topicsLoading && !topicsError && topics.length===0 && <div style={{background:C.s2,border:`1px solid ${C.border}`,borderRadius:10,padding:"20px",textAlign:"center",color:C.sub,marginBottom:16}}><div style={{fontSize:20,marginBottom:6}}>📭</div>오늘 수집된 이슈가 없습니다 — 아래에서 직접 입력하세요</div>}
           <div style={{background:C.s2,border:`1px solid ${C.border}`,borderRadius:10,padding:"12px 14px",marginBottom:16}}>
             <div style={{fontSize:10,color:C.sub,fontWeight:700,textTransform:"uppercase",letterSpacing:"0.07em",marginBottom:8}}>수집 목록에 없는 주제 직접 입력</div>
             <div style={{display:"flex",gap:8,flexWrap:"wrap"}}>
               <div style={{display:"flex",gap:5,flexWrap:"wrap",marginBottom:6,width:"100%"}}>
                 {Object.entries(TYPES).filter(([k])=>k!=="all").map(([k,t])=>(
-                  <button key={k} onClick={()=>setDirectType(k)}
-                    style={{background:directType===k?t.color+"22":"transparent",border:`1px solid ${directType===k?t.color:C.border}`,
-                      color:directType===k?t.color:C.sub,borderRadius:6,padding:"3px 10px",cursor:"pointer",fontSize:11,fontWeight:directType===k?700:400}}>
-                    {t.emoji} {t.label}
-                  </button>
+                  <button key={k} onClick={()=>setDirectType(k)} style={{background:directType===k?t.color+"22":"transparent",border:`1px solid ${directType===k?t.color:C.border}`,color:directType===k?t.color:C.sub,borderRadius:6,padding:"3px 10px",cursor:"pointer",fontSize:11,fontWeight:directType===k?700:400}}>{t.emoji} {t.label}</button>
                 ))}
               </div>
-              <input
-                placeholder="예: 전소미 데오드란트, 늑구 탈출, 한식 틱톡 바이럴..."
-                value={directInput}
-                onChange={e=>setDirectInput(e.target.value)}
-                onKeyDown={e=>{if(e.key==="Enter")submitDirect();}}
-                style={{flex:1,background:C.s1,border:`1px solid ${C.border}`,borderRadius:7,padding:"8px 12px",color:C.text,fontSize:13,minWidth:200}}/>
-              <button onClick={submitDirect} disabled={!directInput.trim()}
-                style={{background:directInput.trim()?C.accent:C.dim,border:"none",color:directInput.trim()?"#fff":C.sub,
-                  borderRadius:7,padding:"8px 16px",cursor:directInput.trim()?"pointer":"not-allowed",fontWeight:700,fontSize:13,whiteSpace:"nowrap"}}>
-                대본 생성 →
-              </button>
+              <input placeholder="예: 전소미 데오드란트, 늑구 탈출, 한식 틱톡 바이럴..." value={directInput} onChange={e=>setDirectInput(e.target.value)} onKeyDown={e=>{if(e.key==="Enter")submitDirect();}} style={{flex:1,background:C.s1,border:`1px solid ${C.border}`,borderRadius:7,padding:"8px 12px",color:C.text,fontSize:13,minWidth:200}}/>
+              <button onClick={submitDirect} disabled={!directInput.trim()} style={{background:directInput.trim()?C.accent:C.dim,border:"none",color:directInput.trim()?"#fff":C.sub,borderRadius:7,padding:"8px 16px",cursor:directInput.trim()?"pointer":"not-allowed",fontWeight:700,fontSize:13,whiteSpace:"nowrap"}}>대본 생성 →</button>
             </div>
           </div>
           <div style={{display:"flex",gap:6,flexWrap:"wrap",marginBottom:16}}>
-            {Object.entries(TYPES).map(([k,t])=>(
-              <Pill key={k} active={typeF===k} color={t.color} onClick={()=>setTypeF(k)}>{t.emoji} {t.label}</Pill>
-            ))}
-            <div style={{marginLeft:"auto",display:"flex",gap:6}}>
-              {["전체","해외","국내"].map(s=>(
-                <Pill key={s} active={srcF===s} color={C.blue} onClick={()=>setSrcF(s)}>{s}</Pill>
-              ))}
-            </div>
+            {Object.entries(TYPES).map(([k,t])=>(<Pill key={k} active={typeF===k} color={t.color} onClick={()=>setTypeF(k)}>{t.emoji} {t.label}</Pill>))}
+            <div style={{marginLeft:"auto",display:"flex",gap:6}}>{["전체","해외","국내"].map(s=>(<Pill key={s} active={srcF===s} color={C.blue} onClick={()=>setSrcF(s)}>{s}</Pill>))}</div>
           </div>
           <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(280px,1fr))",gap:10}}>
-            {filtered.map(m=>{
-              const t=TYPES[m.type]; const sel=topic?.id===m.id;
-              return (
-                <div key={m.id} onClick={()=>pickTopic(m)}
-                  style={{background:sel?t.color+"18":C.s2,border:`1px solid ${sel?t.color:C.border}`,
-                    borderRadius:10,padding:"14px 16px",cursor:"pointer",transition:"border-color 0.1s"}}>
-                  <div style={{display:"flex",justifyContent:"space-between",marginBottom:8}}>
-                    <span style={{background:t.color+"20",color:t.color,fontSize:10,fontWeight:700,padding:"2px 8px",borderRadius:10}}>
-                      {t.emoji} {t.label}
-                    </span>
-                    <span style={{fontSize:10,color:C.sub}}>{m.ago}</span>
-                  </div>
-                  <div style={{fontWeight:600,lineHeight:1.5,marginBottom:10,fontSize:13}}>{m.title}</div>
-                  <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
-                    <span style={{fontSize:10,color:C.sub}}>{m.source} · {m.from}</span>
-                    <div style={{display:"flex",alignItems:"center",gap:5}}>
-                      <div style={{width:36,height:3,background:C.dim,borderRadius:2}}>
-                        <div style={{width:`${m.heat}%`,height:"100%",background:t.color,borderRadius:2}}/>
-                      </div>
-                      <span style={{fontSize:10,color:t.color,fontWeight:800}}>{m.heat}</span>
-                    </div>
+            {filtered.map(m=>{ const t=TYPES[m.type]; const sel=topic?.id===m.id; return (
+              <div key={m.id} onClick={()=>pickTopic(m)} style={{background:sel?t.color+"18":C.s2,border:`1px solid ${sel?t.color:C.border}`,borderRadius:10,padding:"14px 16px",cursor:"pointer"}}>
+                <div style={{display:"flex",justifyContent:"space-between",marginBottom:8}}>
+                  <span style={{background:t.color+"20",color:t.color,fontSize:10,fontWeight:700,padding:"2px 8px",borderRadius:10}}>{t.emoji} {t.label}</span>
+                  <span style={{fontSize:10,color:C.sub}}>{formatAgo(m.collected_at)}</span>
+                </div>
+                <div style={{fontWeight:600,lineHeight:1.5,marginBottom:10,fontSize:13}}>{m.title}</div>
+                <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
+                  <span style={{fontSize:10,color:C.sub}}>{m.source} · {m.from}</span>
+                  <div style={{display:"flex",alignItems:"center",gap:5}}>
+                    <div style={{width:36,height:3,background:C.dim,borderRadius:2}}><div style={{width:`${m.heat}%`,height:"100%",background:t.color,borderRadius:2}}/></div>
+                    <span style={{fontSize:10,color:t.color,fontWeight:800}}>{m.heat}</span>
                   </div>
                 </div>
-              );
-            })}
+              </div>
+            );})}
           </div>
         </>}
 
-        {/* ── GENERATE ── */}
         {tab==="generate" && (
           <div style={{display:"grid",gridTemplateColumns:topic?"300px 1fr":"1fr",gap:16,alignItems:"start"}}>
             <div>
               <Card style={{marginBottom:10}}>
                 <Lbl>선택된 이슈</Lbl>
                 {topic ? <>
-                  <div style={{color:TYPES[topic.type]?.color,fontSize:10,fontWeight:700,marginBottom:4}}>
-                    {TYPES[topic.type]?.emoji} {TYPES[topic.type]?.label}
-                  </div>
+                  <div style={{color:TYPES[topic.type]?.color,fontSize:10,fontWeight:700,marginBottom:4}}>{TYPES[topic.type]?.emoji} {TYPES[topic.type]?.label}</div>
                   <div style={{fontWeight:600,lineHeight:1.5,fontSize:13,marginBottom:10}}>{topic.title}</div>
-                  <button onClick={()=>{setTopic(null);setTab("trends");}}
-                    style={{background:"none",border:`1px solid ${C.border}`,color:C.sub,borderRadius:6,padding:"3px 10px",cursor:"pointer",fontSize:11}}>
-                    다른 이슈 선택
-                  </button>
+                  <button onClick={()=>{setTopic(null);setTab("trends");}} style={{background:"none",border:`1px solid ${C.border}`,color:C.sub,borderRadius:6,padding:"3px 10px",cursor:"pointer",fontSize:11}}>다른 이슈 선택</button>
                 </> : <>
                   <div style={{color:C.sub,fontSize:12,marginBottom:10}}>선택된 이슈가 없습니다</div>
-                  <button onClick={()=>setTab("trends")}
-                    style={{background:C.accent+"22",border:`1px solid ${C.accent}`,color:C.accent,borderRadius:6,padding:"5px 14px",cursor:"pointer",fontSize:12,fontWeight:700}}>
-                    이슈 선택하기 →
-                  </button>
+                  <button onClick={()=>setTab("trends")} style={{background:C.accent+"22",border:`1px solid ${C.accent}`,color:C.accent,borderRadius:6,padding:"5px 14px",cursor:"pointer",fontSize:12,fontWeight:700}}>이슈 선택하기 →</button>
                 </>}
               </Card>
-
               {topic && <>
                 <OptCard title="톤"><Chips opts={["정보형","유머·놀람형","진지·해설형"]} val={opts.tone} onChange={v=>setOpt("tone",v)}/></OptCard>
                 <OptCard title="목표"><Chips opts={["시청지속률","저장 유도","댓글 유도","공유 유도"]} val={opts.goal} onChange={v=>setOpt("goal",v)}/></OptCard>
@@ -395,50 +275,22 @@ export default function App() {
                   <OptCard title="색감"><Chips opts={["밝고 경쾌한","다크·심플","파스텔"]} val={opts.imageColor} onChange={v=>setOpt("imageColor",v)}/></OptCard>
                   <OptCard title="텍스트"><Chips opts={["자막 포함","텍스트 없음"]} val={opts.imageText} onChange={v=>setOpt("imageText",v)}/></OptCard>
                 </div>
-                <OptCard title="AI 모델">
-                  <Chips opts={["Claude","Gemini"]} val={opts.model} onChange={v=>setOpt("model",v)}/>
-                </OptCard>
-                <button onClick={generate} disabled={loading}
-                  style={{width:"100%",background:loading?C.dim:C.accent,border:"none",color:"#fff",borderRadius:10,padding:"12px",fontWeight:800,fontSize:14,cursor:loading?"not-allowed":"pointer"}}>
-                  {loading?"생성 중…":"✨  대본 생성"}
-                </button>
+                <OptCard title="AI 모델"><Chips opts={["Claude","Gemini"]} val={opts.model} onChange={v=>setOpt("model",v)}/></OptCard>
+                <button onClick={generate} disabled={loading} style={{width:"100%",background:loading?C.dim:C.accent,border:"none",color:"#fff",borderRadius:10,padding:"12px",fontWeight:800,fontSize:14,cursor:loading?"not-allowed":"pointer"}}>{loading?"생성 중…":"✨  대본 생성"}</button>
               </>}
             </div>
-
             {topic && (
               <div>
-                {!output && !loading && (
-                  <div style={{background:C.s2,border:`1px solid ${C.border}`,borderRadius:12,padding:60,textAlign:"center",color:C.sub}}>
-                    <div style={{fontSize:36,marginBottom:12}}>✨</div>
-                    옵션 설정 후 대본 생성을 누르세요
-                  </div>
-                )}
-                {loading && (
-                  <div style={{background:C.s2,border:`1px solid ${C.border}`,borderRadius:12,padding:60,textAlign:"center",color:C.sub}}>
-                    <div style={{fontSize:32,marginBottom:12}}>⏳</div>
-                    {opts.model}가 대본 작성 중…
-                  </div>
-                )}
-                {output?.error && (
-                  <div style={{background:"#1A0508",border:`1px solid ${C.accent}44`,borderRadius:12,padding:20,color:C.accent}}>
-                    오류: {output.error}
-                  </div>
-                )}
+                {!output && !loading && <div style={{background:C.s2,border:`1px solid ${C.border}`,borderRadius:12,padding:60,textAlign:"center",color:C.sub}}><div style={{fontSize:36,marginBottom:12}}>✨</div>옵션 설정 후 대본 생성을 누르세요</div>}
+                {loading && <div style={{background:C.s2,border:`1px solid ${C.border}`,borderRadius:12,padding:60,textAlign:"center",color:C.sub}}><div style={{fontSize:32,marginBottom:12}}>⏳</div>{opts.model}가 대본 작성 중…</div>}
+                {output?.error && <div style={{background:"#1A0508",border:`1px solid ${C.accent}44`,borderRadius:12,padding:20,color:C.accent}}>오류: {output.error}</div>}
                 {output && !output.error && <>
                   <div style={{display:"flex",gap:8,marginBottom:12,flexWrap:"wrap"}}>
                     {[["script","📝 대본"],["image","🎨 이미지 프롬프트"],["upload","📤 업로드 패키지"]].map(([k,l])=>(
-                      <button key={k} onClick={()=>setOutTab(k)}
-                        style={{background:outTab===k?C.accent+"22":C.s1,border:`1px solid ${outTab===k?C.accent:C.border}`,
-                          color:outTab===k?C.accent:C.sub,borderRadius:8,padding:"6px 14px",cursor:"pointer",fontSize:12,fontWeight:outTab===k?700:400}}>
-                        {l}
-                      </button>
+                      <button key={k} onClick={()=>setOutTab(k)} style={{background:outTab===k?C.accent+"22":C.s1,border:`1px solid ${outTab===k?C.accent:C.border}`,color:outTab===k?C.accent:C.sub,borderRadius:8,padding:"6px 14px",cursor:"pointer",fontSize:12,fontWeight:outTab===k?700:400}}>{l}</button>
                     ))}
-                    <button onClick={addQueue}
-                      style={{marginLeft:"auto",background:C.green+"15",border:`1px solid ${C.green}44`,color:C.green,borderRadius:8,padding:"6px 14px",cursor:"pointer",fontSize:12,fontWeight:700}}>
-                      + 큐 추가
-                    </button>
+                    <button onClick={addQueue} style={{marginLeft:"auto",background:C.green+"15",border:`1px solid ${C.green}44`,color:C.green,borderRadius:8,padding:"6px 14px",cursor:"pointer",fontSize:12,fontWeight:700}}>+ 큐 추가</button>
                   </div>
-
                   {outTab==="script" && <>
                     {(output.scenes?.length>0?output.scenes:[]).map((s,i)=>(
                       <div key={i} style={{background:C.s2,border:`1px solid ${regenIdx===i?C.amber:C.border}`,borderRadius:10,padding:"12px 14px",marginBottom:8}}>
@@ -449,33 +301,15 @@ export default function App() {
                         </div>
                         {s.subtitle && <div style={{fontWeight:700,fontSize:15,marginBottom:6}}>{s.subtitle}</div>}
                         <div style={{color:C.sub,lineHeight:1.65,fontSize:13,marginBottom:10}}>{s.naration}</div>
-                        {/* 장면별 재생성 입력창 */}
                         <div style={{display:"flex",gap:6,alignItems:"center"}}>
-                          <input
-                            placeholder="이 장면 수정 지시 (예: 더 충격적으로)"
-                            value={editText[i]||""}
-                            disabled={regenIdx!==null}
-                            onChange={e=>setEditText(p=>({...p,[i]:e.target.value}))}
-                            onKeyDown={e=>{if(e.key==="Enter")regenScene(i);}}
-                            style={{flex:1,background:C.s1,border:`1px solid ${C.border}`,borderRadius:6,padding:"5px 9px",color:C.text,fontSize:11,boxSizing:"border-box"}}/>
-                          <button onClick={()=>regenScene(i)} disabled={regenIdx!==null}
-                            style={{background:regenIdx===i?C.dim:C.amber+"22",border:`1px solid ${C.amber}55`,color:C.amber,borderRadius:6,padding:"5px 10px",cursor:regenIdx!==null?"not-allowed":"pointer",fontSize:11,fontWeight:700,whiteSpace:"nowrap"}}>
-                            {regenIdx===i?"⏳":"🔄"}
-                          </button>
+                          <input placeholder="이 장면 수정 지시 (예: 더 충격적으로)" value={editText[i]||""} disabled={regenIdx!==null} onChange={e=>setEditText(p=>({...p,[i]:e.target.value}))} onKeyDown={e=>{if(e.key==="Enter")regenScene(i);}} style={{flex:1,background:C.s1,border:`1px solid ${C.border}`,borderRadius:6,padding:"5px 9px",color:C.text,fontSize:11,boxSizing:"border-box"}}/>
+                          <button onClick={()=>regenScene(i)} disabled={regenIdx!==null} style={{background:regenIdx===i?C.dim:C.amber+"22",border:`1px solid ${C.amber}55`,color:C.amber,borderRadius:6,padding:"5px 10px",cursor:regenIdx!==null?"not-allowed":"pointer",fontSize:11,fontWeight:700,whiteSpace:"nowrap"}}>{regenIdx===i?"⏳":"🔄"}</button>
                         </div>
                       </div>
                     ))}
-                    {output.scenes?.length===0 && (
-                      <div style={{background:C.s2,border:`1px solid ${C.border}`,borderRadius:10,padding:16}}>
-                        <pre style={{whiteSpace:"pre-wrap",lineHeight:1.7,fontSize:13,margin:0,color:C.text}}>{output.raw}</pre>
-                      </div>
-                    )}
-                    <button onClick={()=>cp(output.raw)}
-                      style={{width:"100%",background:C.s2,border:`1px solid ${C.border}`,color:C.sub,borderRadius:8,padding:"8px",cursor:"pointer",fontSize:12,marginTop:6}}>
-                      전체 대본 복사
-                    </button>
+                    {output.scenes?.length===0 && <div style={{background:C.s2,border:`1px solid ${C.border}`,borderRadius:10,padding:16}}><pre style={{whiteSpace:"pre-wrap",lineHeight:1.7,fontSize:13,margin:0,color:C.text}}>{output.raw}</pre></div>}
+                    <button onClick={()=>cp(output.raw)} style={{width:"100%",background:C.s2,border:`1px solid ${C.border}`,color:C.sub,borderRadius:8,padding:"8px",cursor:"pointer",fontSize:12,marginTop:6}}>전체 대본 복사</button>
                   </>}
-
                   {outTab==="image" && output.images?.map((p,i)=>(
                     <div key={i} style={{background:C.s2,border:`1px solid ${C.border}`,borderRadius:10,padding:"12px 14px",marginBottom:8}}>
                       <div style={{display:"flex",justifyContent:"space-between",marginBottom:8}}>
@@ -485,7 +319,6 @@ export default function App() {
                       <div style={{fontSize:12,color:C.sub,lineHeight:1.6,whiteSpace:"pre-wrap"}}>{p}</div>
                     </div>
                   ))}
-
                   {outTab==="upload" && output.upload && <>
                     <OutBlock title="제목 후보 3종" text={output.upload.titles.map(t=>`[${t.label}] ${t.text}`).join('\n')}>
                       {output.upload.titles.map((t,i)=>(
@@ -498,12 +331,8 @@ export default function App() {
                         </div>
                       ))}
                     </OutBlock>
-                    <OutBlock title="설명문" text={output.upload.desc}>
-                      <div style={{whiteSpace:"pre-wrap",fontSize:12,color:C.sub,lineHeight:1.7}}>{output.upload.desc}</div>
-                    </OutBlock>
-                    <OutBlock title="핀 댓글" text={output.upload.pin}>
-                      <div style={{fontSize:13,lineHeight:1.6}}>{output.upload.pin}</div>
-                    </OutBlock>
+                    <OutBlock title="설명문" text={output.upload.desc}><div style={{whiteSpace:"pre-wrap",fontSize:12,color:C.sub,lineHeight:1.7}}>{output.upload.desc}</div></OutBlock>
+                    <OutBlock title="핀 댓글" text={output.upload.pin}><div style={{fontSize:13,lineHeight:1.6}}>{output.upload.pin}</div></OutBlock>
                   </>}
                 </>}
               </div>
@@ -511,37 +340,24 @@ export default function App() {
           </div>
         )}
 
-        {/* ── QUEUE ── */}
         {tab==="queue" && <>
           <div style={{fontWeight:700,fontSize:15,marginBottom:16}}>제작 큐 {queue.length>0&&`(${queue.length})`}</div>
           {queue.length===0 ? (
-            <div style={{background:C.s2,border:`1px solid ${C.border}`,borderRadius:12,padding:60,textAlign:"center",color:C.sub}}>
-              <div style={{fontSize:28,marginBottom:8}}>📋</div>
-              대본 생성 후 큐에 추가해보세요
-            </div>
-          ) : queue.map(q=>{
-            const t=TYPES[q.topic.type];
-            return (
-              <div key={q.id} style={{background:C.s2,border:`1px solid ${C.border}`,borderRadius:10,padding:"12px 16px",marginBottom:8,display:"flex",alignItems:"center",gap:12}}>
-                <div style={{flex:1}}>
-                  <div style={{fontSize:10,color:t?.color,fontWeight:700,marginBottom:3}}>{t?.emoji} {t?.label}</div>
-                  <div style={{fontWeight:600,fontSize:13}}>{q.topic.title}</div>
-                  <div style={{fontSize:10,color:C.sub,marginTop:2}}>{q.at}</div>
-                </div>
-                <div style={{display:"flex",gap:5}}>
-                  {["대기중","촬영중","완료"].map(s=>(
-                    <button key={s} onClick={()=>setQueue(p=>p.map(i=>i.id===q.id?{...i,status:s}:i))}
-                      style={{background:q.status===s?STATUS_C[s]+"22":"transparent",
-                        border:`1px solid ${q.status===s?STATUS_C[s]:C.border}`,
-                        color:q.status===s?STATUS_C[s]:C.sub,
-                        borderRadius:6,padding:"3px 8px",cursor:"pointer",fontSize:10}}>
-                      {s}
-                    </button>
-                  ))}
-                </div>
+            <div style={{background:C.s2,border:`1px solid ${C.border}`,borderRadius:12,padding:60,textAlign:"center",color:C.sub}}><div style={{fontSize:28,marginBottom:8}}>📋</div>대본 생성 후 큐에 추가해보세요</div>
+          ) : queue.map(q=>{ const t=TYPES[q.topic.type]; return (
+            <div key={q.id} style={{background:C.s2,border:`1px solid ${C.border}`,borderRadius:10,padding:"12px 16px",marginBottom:8,display:"flex",alignItems:"center",gap:12}}>
+              <div style={{flex:1}}>
+                <div style={{fontSize:10,color:t?.color,fontWeight:700,marginBottom:3}}>{t?.emoji} {t?.label}</div>
+                <div style={{fontWeight:600,fontSize:13}}>{q.topic.title}</div>
+                <div style={{fontSize:10,color:C.sub,marginTop:2}}>{q.at}</div>
               </div>
-            );
-          })}
+              <div style={{display:"flex",gap:5}}>
+                {["대기중","촬영중","완료"].map(s=>(
+                  <button key={s} onClick={()=>setQueue(p=>p.map(i=>i.id===q.id?{...i,status:s}:i))} style={{background:q.status===s?STATUS_C[s]+"22":"transparent",border:`1px solid ${q.status===s?STATUS_C[s]:C.border}`,color:q.status===s?STATUS_C[s]:C.sub,borderRadius:6,padding:"3px 8px",cursor:"pointer",fontSize:10}}>{s}</button>
+                ))}
+              </div>
+            </div>
+          );})}
         </>}
       </div>
     </div>
