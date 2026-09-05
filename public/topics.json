@@ -2,320 +2,287 @@
   {
     "id": 1,
     "type": "kpop",
-    "title": "37년차 막내와 3년차 CEO의 따뜻한 동행…최민식·한소희 '인턴'",
+    "title": "진주 전통시장에 '마을 방송국'…상인·주민 잇는 미디어 조성",
     "source": "국내",
     "from": "연합뉴스/연예",
     "ago": "1분 전",
     "heat": 100,
-    "url": "https://www.yna.co.kr/view/AKR20260905001700005",
-    "collected_at": "2026-09-04 23:53"
+    "url": "https://www.yna.co.kr/view/AKR20260904137700052",
+    "collected_at": "2026-09-05 23:43"
   },
   {
     "id": 2,
     "type": "kpop",
-    "title": "Actively exploited sandbox RCE in all Chromium versions",
-    "source": "해외",
-    "from": "Hacker News",
-    "ago": "0분 전",
-    "heat": 100,
-    "url": "https://nvd.nist.gov/vuln/detail/cve-2026-85046",
-    "collected_at": "2026-09-04 23:54"
+    "title": "[소셜＋] \"기성방송선 못 볼 도파민\"…'날것의 서사'로 무장한 AI드라마",
+    "source": "국내",
+    "from": "연합뉴스/연예",
+    "ago": "1분 전",
+    "heat": 93,
+    "url": "https://www.yna.co.kr/view/AKR20260903156700505",
+    "collected_at": "2026-09-05 23:43"
   },
   {
     "id": 3,
     "type": "kpop",
-    "title": "이승기, 前소속사 정산금 소송 또 승소…\"계약해지 후 수익 나눠야\"",
+    "title": "LA·하와이서 연이어 한국 영화 축제…유지태·김지운 등 참석",
     "source": "국내",
     "from": "연합뉴스/연예",
     "ago": "1분 전",
-    "heat": 93,
-    "url": "https://www.yna.co.kr/view/AKR20260904166800004",
-    "collected_at": "2026-09-04 23:53"
+    "heat": 90,
+    "url": "https://www.yna.co.kr/view/AKR20260906002000075",
+    "collected_at": "2026-09-05 23:43"
   },
   {
     "id": 4,
     "type": "kpop",
-    "title": "'나혼산' 제작진 \"전현무 카자흐 촬영 사전 준비…진심 사과\"",
-    "source": "국내",
-    "from": "연합뉴스/연예",
-    "ago": "1분 전",
+    "title": "OKF Agent Memory – Git-native persistent memory for AI coding agents",
+    "source": "해외",
+    "from": "Hacker News",
+    "ago": "0분 전",
     "heat": 90,
-    "url": "https://www.yna.co.kr/view/AKR20260904164300005",
-    "collected_at": "2026-09-04 23:53"
+    "url": "https://github.com/okf-memory/okf-agent-memory",
+    "collected_at": "2026-09-05 23:44"
   },
   {
     "id": 5,
     "type": "kpop",
-    "title": "中 텐센트뮤직 총괄 \"AI 콘텐츠 늘수록 인간 창작자 가치 커질 것\"",
+    "title": "임영웅, 10주년에 고양 스타디움 입성…\"다시 데뷔하는 마음\"",
     "source": "국내",
     "from": "연합뉴스/연예",
     "ago": "1분 전",
-    "heat": 83,
-    "url": "https://www.yna.co.kr/view/AKR20260904137800005",
-    "collected_at": "2026-09-04 23:53"
+    "heat": 86,
+    "url": "https://www.yna.co.kr/view/AKR20260905049300005",
+    "collected_at": "2026-09-05 23:43"
   },
   {
     "id": 6,
     "type": "social",
-    "title": "[로컬의 재발견] 포성 멎은 매향리, 자연의 소리로 상처 달랜다",
+    "title": "밀양시 '다시 읽는 햇살책방' 내달 운영…제적 도서 시민에 나눔",
     "source": "국내",
-    "from": "연합뉴스/정치",
+    "from": "연합뉴스/사회",
     "ago": "0분 전",
     "heat": 100,
-    "url": "https://www.yna.co.kr/view/AKR20260904100000061",
-    "collected_at": "2026-09-04 23:54"
+    "url": "https://www.yna.co.kr/view/AKR20260904109700052",
+    "collected_at": "2026-09-05 23:44"
   },
   {
     "id": 7,
     "type": "social",
-    "title": "니카라과서 한국영화제 개최…'명당' 등 8편 상영",
+    "title": "[한일 미래路] 일한교류기금 이사장 \"EU·아세안처럼…東亞서 한일 뭉쳐야\"",
     "source": "국내",
-    "from": "연합뉴스/연예",
-    "ago": "1분 전",
-    "heat": 97,
-    "url": "https://www.yna.co.kr/view/AKR20260905010800087",
-    "collected_at": "2026-09-04 23:53"
+    "from": "연합뉴스/정치",
+    "ago": "0분 전",
+    "heat": 100,
+    "url": "https://www.yna.co.kr/view/AKR20260903165300073",
+    "collected_at": "2026-09-05 23:44"
   },
   {
     "id": 8,
     "type": "social",
-    "title": "두리발 타고 고향으로…부산시설공단, 장애인 추석길 돕는다",
+    "title": "日 승려 가수 간호 야쿠시지 \"음악, 느끼는 것의 소중함 일깨워\"",
     "source": "국내",
-    "from": "연합뉴스/사회",
+    "from": "연합뉴스/연예",
     "ago": "1분 전",
     "heat": 97,
-    "url": "https://www.yna.co.kr/view/AKR20260904100900051",
-    "collected_at": "2026-09-04 23:53"
+    "url": "https://www.yna.co.kr/view/AKR20260905037700005",
+    "collected_at": "2026-09-05 23:43"
   },
   {
     "id": 9,
     "type": "social",
-    "title": "입주기업은 1.8만인데 사업자는 4.6만?…산단 '유령사업자' 활개",
+    "title": "진주 전통시장에 '마을 방송국'…상인·주민 잇는 미디어 조성",
     "source": "국내",
-    "from": "연합뉴스/정치",
+    "from": "연합뉴스/사회",
     "ago": "0분 전",
     "heat": 97,
-    "url": "https://www.yna.co.kr/view/AKR20260904152000001",
-    "collected_at": "2026-09-04 23:54"
+    "url": "https://www.yna.co.kr/view/AKR20260904137700052",
+    "collected_at": "2026-09-05 23:44"
   },
   {
     "id": 10,
     "type": "social",
-    "title": "역대급 폭염에도 이용객 3년째 감소한 양산 황산공원 물놀이장",
+    "title": "김승원이 '공익민원'이라던 신약임상 청탁…이면은 불법 이권판",
     "source": "국내",
-    "from": "연합뉴스/사회",
-    "ago": "1분 전",
-    "heat": 93,
-    "url": "https://www.yna.co.kr/view/AKR20260904099900052",
-    "collected_at": "2026-09-04 23:53"
+    "from": "연합뉴스/정치",
+    "ago": "0분 전",
+    "heat": 97,
+    "url": "https://www.yna.co.kr/view/AKR20260905051400004",
+    "collected_at": "2026-09-05 23:44"
   },
   {
     "id": 11,
     "type": "culture",
-    "title": "두리발 타고 고향으로…부산시설공단, 장애인 추석길 돕는다",
+    "title": "밀양시 '다시 읽는 햇살책방' 내달 운영…제적 도서 시민에 나눔",
     "source": "국내",
     "from": "연합뉴스/문화",
     "ago": "0분 전",
-    "heat": 97,
-    "url": "https://www.yna.co.kr/view/AKR20260904100900051",
-    "collected_at": "2026-09-04 23:54"
+    "heat": 100,
+    "url": "https://www.yna.co.kr/view/AKR20260904109700052",
+    "collected_at": "2026-09-05 23:44"
   },
   {
     "id": 12,
     "type": "culture",
-    "title": "역대급 폭염에도 이용객 3년째 감소한 양산 황산공원 물놀이장",
+    "title": "\"물티슈 48배·맥주 35배\"…이마트24, 불꽃축제 매출 10배 증가",
     "source": "국내",
     "from": "연합뉴스/문화",
     "ago": "0분 전",
     "heat": 93,
-    "url": "https://www.yna.co.kr/view/AKR20260904099900052",
-    "collected_at": "2026-09-04 23:54"
+    "url": "https://www.yna.co.kr/view/AKR20260906011200030",
+    "collected_at": "2026-09-05 23:44"
   },
   {
     "id": 13,
     "type": "culture",
-    "title": "진주 남강 촉석루, 국가 명승 지정…절경에 더한 순국 역사 인정",
+    "title": "충남도, 동남아서 농산물·관광자원 홍보…수출 확대 기대",
     "source": "국내",
     "from": "연합뉴스/문화",
     "ago": "0분 전",
-    "heat": 90,
-    "url": "https://www.yna.co.kr/view/AKR20260904107100052",
-    "collected_at": "2026-09-04 23:54"
+    "heat": 83,
+    "url": "https://www.yna.co.kr/view/AKR20260906007900063",
+    "collected_at": "2026-09-05 23:44"
   },
   {
     "id": 14,
     "type": "culture",
-    "title": "함안 청년이 직접 만든 문화축제 'SODO 페스타' 12일 열린다",
+    "title": "\"기차역 음식값 5년 새 24%↑…김밥 4천78원·돈가스 1만26원\"",
     "source": "국내",
-    "from": "연합뉴스/문화",
+    "from": "연합뉴스/경제",
     "ago": "0분 전",
-    "heat": 86,
-    "url": "https://www.yna.co.kr/view/AKR20260904130400052",
-    "collected_at": "2026-09-04 23:54"
+    "heat": 83,
+    "url": "https://www.yna.co.kr/view/AKR20260906000200003",
+    "collected_at": "2026-09-05 23:44"
   },
   {
     "id": 15,
     "type": "culture",
-    "title": "37년차 막내와 3년차 CEO의 따뜻한 동행…최민식·한소희 '인턴'",
+    "title": "대만 관광객 사로잡은 부산…'부산병' 유행에 항공편 급증",
     "source": "국내",
     "from": "연합뉴스/문화",
     "ago": "0분 전",
-    "heat": 83,
-    "url": "https://www.yna.co.kr/view/AKR20260905001700005",
-    "collected_at": "2026-09-04 23:54"
+    "heat": 79,
+    "url": "https://www.yna.co.kr/view/AKR20260904127900051",
+    "collected_at": "2026-09-05 23:44"
   },
   {
     "id": 16,
     "type": "overseas",
-    "title": "Formalizing Fermat's Last Theorem",
+    "title": "Private German rocket makes history, reaches orbit from European soil",
     "source": "해외",
     "from": "Hacker News",
     "ago": "0분 전",
-    "heat": 97,
-    "url": "https://www.anthropic.com/research/formalizing-fermats-last-theorem",
-    "collected_at": "2026-09-04 23:54"
+    "heat": 100,
+    "url": "https://www.space.com/space-exploration/launches-spacecraft/isar-aerospace-second-launch-norway-andoya-spaceport-spectrum-rocket",
+    "collected_at": "2026-09-05 23:44"
   },
   {
     "id": 17,
     "type": "overseas",
-    "title": "Statichost.eu – European static site hosting",
+    "title": "Learn Programming with OCaml",
     "source": "해외",
     "from": "Hacker News",
     "ago": "0분 전",
-    "heat": 93,
-    "url": "https://www.statichost.eu/",
-    "collected_at": "2026-09-04 23:54"
+    "heat": 97,
+    "url": "https://usr.lmf.cnrs.fr/lpo/",
+    "collected_at": "2026-09-05 23:44"
   },
   {
     "id": 18,
     "type": "overseas",
-    "title": "Discovery of a new OpenAI agent message board",
+    "title": "Finite time blowup for an averaged three-dimensional Navier-Stokes equation (2014)",
     "source": "해외",
     "from": "Hacker News",
     "ago": "0분 전",
-    "heat": 90,
-    "url": "https://collusion.wiki/",
-    "collected_at": "2026-09-04 23:54"
+    "heat": 93,
+    "url": "https://terrytao.wordpress.com/2014/02/04/finite-time-blowup-for-an-averaged-three-dimensional-navier-stokes-equation/",
+    "collected_at": "2026-09-05 23:44"
   },
   {
     "id": 19,
     "type": "overseas",
-    "title": "GPT-6 Astra on OpenRouter",
+    "title": "The \"$60 Gaming PC\" – AMD BC-250 (2025)",
     "source": "해외",
     "from": "Hacker News",
     "ago": "0분 전",
     "heat": 86,
-    "url": "https://openrouter.ai/openai/gpt-6-astra",
-    "collected_at": "2026-09-04 23:54"
+    "url": "https://devquasar.com/hardware/the-60-gaming-pc-amd-bc-250/",
+    "collected_at": "2026-09-05 23:44"
   },
   {
     "id": 20,
     "type": "overseas",
-    "title": "Can AI design circuit boards yet?",
+    "title": "Falsehoods Programmers Believe About LANs",
     "source": "해외",
     "from": "Hacker News",
     "ago": "0분 전",
     "heat": 83,
-    "url": "https://eebench.org/blog/can-ai-design-circuit-boards-yet/",
-    "collected_at": "2026-09-04 23:54"
+    "url": "https://dreamstation.systems/personal/lanfalsehoods.html",
+    "collected_at": "2026-09-05 23:44"
   },
   {
     "id": 21,
-    "type": "beauty",
-    "title": "\"얻어먹을 힘만 있어도 주님의 은총\" 꽃동네 설립 50주년 맞아",
+    "type": "living",
+    "title": "용혜인 정리하고 김승원 살리기 들어가나…김민석 '판단' 주목",
     "source": "국내",
-    "from": "연합뉴스/사회",
-    "ago": "1분 전",
-    "heat": 100,
-    "url": "https://www.yna.co.kr/view/AKR20260904148400064",
-    "collected_at": "2026-09-04 23:53"
+    "from": "연합뉴스/정치",
+    "ago": "0분 전",
+    "heat": 90,
+    "url": "https://www.yna.co.kr/view/AKR20260905043800001",
+    "collected_at": "2026-09-05 23:44"
   },
   {
     "id": 22,
-    "type": "beauty",
-    "title": "\"얻어먹을 힘만 있어도 주님의 은총\" 꽃동네 설립 50주년 맞아",
+    "type": "season",
+    "title": "\"물티슈 48배·맥주 35배\"…이마트24, 불꽃축제 매출 10배 증가",
     "source": "국내",
-    "from": "연합뉴스/문화",
+    "from": "연합뉴스/경제",
     "ago": "0분 전",
     "heat": 100,
-    "url": "https://www.yna.co.kr/view/AKR20260904148400064",
-    "collected_at": "2026-09-04 23:54"
+    "url": "https://www.yna.co.kr/view/AKR20260906011200030",
+    "collected_at": "2026-09-05 23:44"
   },
   {
     "id": 23,
-    "type": "beauty",
-    "title": "[신상잇슈] 뚜레쥬르 '글로우 오브 시티'·면사랑 중식·양식 냉동소스",
+    "type": "season",
+    "title": "울산시, 필리핀 여행업계 21명 팸투어…울산 관광상품 개발 촉진",
     "source": "국내",
-    "from": "연합뉴스/경제",
+    "from": "연합뉴스/문화",
     "ago": "0분 전",
-    "heat": 72,
-    "url": "https://www.yna.co.kr/view/AKR20260904058700030",
-    "collected_at": "2026-09-04 23:54"
+    "heat": 97,
+    "url": "https://www.yna.co.kr/view/AKR20260904159000057",
+    "collected_at": "2026-09-05 23:44"
   },
   {
     "id": 24,
-    "type": "living",
-    "title": "[팩트체크] ADHD는 10대 청소년 문제?…중년층 환자도 폭증세",
-    "source": "국내",
-    "from": "연합뉴스/사회",
-    "ago": "1분 전",
-    "heat": 54,
-    "url": "https://www.yna.co.kr/view/AKR20260902157700518",
-    "collected_at": "2026-09-04 23:53"
-  },
-  {
-    "id": 25,
     "type": "season",
-    "title": "울산시, 중소기업·소상공인에 760억 경영안정자금 지원",
-    "source": "국내",
-    "from": "연합뉴스/경제",
-    "ago": "0분 전",
-    "heat": 100,
-    "url": "https://www.yna.co.kr/view/AKR20260904157500057",
-    "collected_at": "2026-09-04 23:54"
-  },
-  {
-    "id": 26,
-    "type": "season",
-    "title": "'인력 재배치시 파업가능'에 경영계 우려↑…\"누더기 지침 한계\"",
+    "title": "\"야구장 포장·배달 주문 1위는 물회·육회…치킨은 3위로\"",
     "source": "국내",
     "from": "연합뉴스/경제",
     "ago": "0분 전",
     "heat": 97,
-    "url": "https://www.yna.co.kr/view/AKR20260904132400003",
-    "collected_at": "2026-09-04 23:54"
+    "url": "https://www.yna.co.kr/view/AKR20260906005800030",
+    "collected_at": "2026-09-05 23:44"
   },
   {
-    "id": 27,
+    "id": 25,
     "type": "season",
-    "title": "익산역 개발·원도심 발전 방향은…익산시청서 16일 타운홀미팅",
+    "title": "전남광주 상무지구 도심융합특구, 반도체 배후단지로 조성",
     "source": "국내",
     "from": "연합뉴스/경제",
     "ago": "0분 전",
     "heat": 93,
-    "url": "https://www.yna.co.kr/view/AKR20260904093200055",
-    "collected_at": "2026-09-04 23:54"
+    "url": "https://www.yna.co.kr/view/AKR20260904136800054",
+    "collected_at": "2026-09-05 23:44"
   },
   {
-    "id": 28,
+    "id": 26,
     "type": "season",
-    "title": "\"철거권 줄게\"…가짜서류로 5억 가로챈 일당 2심도 징역형 집유",
+    "title": "[여행honey] 마음을 비추는 달을 찾아서…인월사와 경포대",
     "source": "국내",
-    "from": "연합뉴스/경제",
+    "from": "연합뉴스/문화",
     "ago": "0분 전",
     "heat": 90,
-    "url": "https://www.yna.co.kr/view/AKR20260904057100065",
-    "collected_at": "2026-09-04 23:54"
-  },
-  {
-    "id": 29,
-    "type": "season",
-    "title": "대구세관, 추석 앞두고 24시간 수출입 통관 지원",
-    "source": "국내",
-    "from": "연합뉴스/경제",
-    "ago": "0분 전",
-    "heat": 86,
-    "url": "https://www.yna.co.kr/view/AKR20260904093900053",
-    "collected_at": "2026-09-04 23:54"
+    "url": "https://www.yna.co.kr/view/AKR20260813066200542",
+    "collected_at": "2026-09-05 23:44"
   }
 ]
