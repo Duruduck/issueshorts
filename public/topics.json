@@ -2,298 +2,309 @@
   {
     "id": 1,
     "type": "kpop",
-    "title": "마이 케미컬 로맨스, 18년만 내한 공연…추위 녹인 2만명 떼창",
+    "title": "[가요소식] 태연, 30일 4집 '언스페셜'…4년 10개월만 정규앨범",
     "source": "국내",
     "from": "연합뉴스/연예",
-    "ago": "1분 전",
+    "ago": "0분 전",
     "heat": 100,
-    "url": "https://www.yna.co.kr/view/AKR20261108001800005",
-    "collected_at": "2026-11-08 01:14"
+    "url": "https://www.yna.co.kr/view/AKR20261109054900005",
+    "collected_at": "2026-11-09 01:35"
   },
   {
     "id": 2,
     "type": "kpop",
-    "title": "GS리테일, '미디어나눔버스' 운영 10년…2만3천명에 교육 제공",
-    "source": "국내",
-    "from": "연합뉴스/연예",
-    "ago": "1분 전",
-    "heat": 97,
-    "url": "https://www.yna.co.kr/view/AKR20261108012700030",
-    "collected_at": "2026-11-08 01:14"
+    "title": "KetchUp – Open-source SketchUp alternative built with Rust and WebGPU",
+    "source": "해외",
+    "from": "Hacker News",
+    "ago": "0분 전",
+    "heat": 100,
+    "url": "https://ketchup3d.github.io/app/",
+    "collected_at": "2026-11-09 01:35"
   },
   {
     "id": 3,
     "type": "kpop",
-    "title": "이창동이 그린 해고노동자 가족…'심장소리'와 '가능한 사랑'",
+    "title": "테이, '굿모닝FM' 3년 6개월만 하차…\"새 앨범에 집중\"",
     "source": "국내",
     "from": "연합뉴스/연예",
-    "ago": "1분 전",
-    "heat": 93,
-    "url": "https://www.yna.co.kr/view/AKR20261106188700005",
-    "collected_at": "2026-11-08 01:14"
+    "ago": "0분 전",
+    "heat": 97,
+    "url": "https://www.yna.co.kr/view/AKR20261109052100005",
+    "collected_at": "2026-11-09 01:35"
   },
   {
     "id": 4,
     "type": "kpop",
-    "title": "신세계百 강남점, 에이티즈 앨범 발매 기념 팝업 매장 운영",
+    "title": "JYP, 내년 새 보이그룹 오브더블루…킥플립 이후 2년만",
     "source": "국내",
     "from": "연합뉴스/연예",
-    "ago": "1분 전",
-    "heat": 90,
-    "url": "https://www.yna.co.kr/view/AKR20261107020700030",
-    "collected_at": "2026-11-08 01:14"
+    "ago": "0분 전",
+    "heat": 93,
+    "url": "https://www.yna.co.kr/view/AKR20261109041400005",
+    "collected_at": "2026-11-09 01:35"
   },
   {
     "id": 5,
     "type": "kpop",
-    "title": "하이브·SM 구성원 4인, '빌보드 투어링 파워 플레이어스' 선정",
+    "title": "'명탐정 코난' 성우 만난다…21∼29일 '투니보이스 페스타'",
     "source": "국내",
     "from": "연합뉴스/연예",
-    "ago": "1분 전",
-    "heat": 86,
-    "url": "https://www.yna.co.kr/view/AKR20261107034400005",
-    "collected_at": "2026-11-08 01:14"
+    "ago": "0분 전",
+    "heat": 90,
+    "url": "https://www.yna.co.kr/view/AKR20261109039900005",
+    "collected_at": "2026-11-09 01:35"
   },
   {
     "id": 6,
     "type": "social",
-    "title": "울주군 내년 장애인일자리사업 참여자 모집…18세 이상 미취업자",
+    "title": "황우석 전 교수, UAE 국적 취득해 한국 국적 상실",
     "source": "국내",
     "from": "연합뉴스/사회",
     "ago": "0분 전",
     "heat": 100,
-    "url": "https://www.yna.co.kr/view/AKR20261106065600057",
-    "collected_at": "2026-11-08 01:15"
+    "url": "https://www.yna.co.kr/view/AKR20261109056000004",
+    "collected_at": "2026-11-09 01:35"
   },
   {
     "id": 7,
     "type": "social",
-    "title": "'장군 정신 함께 잇는다' 세종시·해군 대호김종서함 협약",
+    "title": "국힘 부산의원들, 산업은행 본점 조속한 부산이전 촉구",
     "source": "국내",
     "from": "연합뉴스/정치",
     "ago": "0분 전",
     "heat": 100,
-    "url": "https://www.yna.co.kr/view/AKR20261108015900063",
-    "collected_at": "2026-11-08 01:15"
+    "url": "https://www.yna.co.kr/view/AKR20261109055300051",
+    "collected_at": "2026-11-09 01:35"
   },
   {
     "id": 8,
     "type": "social",
-    "title": "춘천 남이섬 여객선 '탐나라호', 자율운항 안전성평가 승인",
+    "title": "전북도, 식품안심구역 7곳 새로 지정…안전한 외식 환경 조성",
     "source": "국내",
     "from": "연합뉴스/사회",
     "ago": "0분 전",
     "heat": 97,
-    "url": "https://www.yna.co.kr/view/AKR20261106141800062",
-    "collected_at": "2026-11-08 01:15"
+    "url": "https://www.yna.co.kr/view/AKR20261109055000055",
+    "collected_at": "2026-11-09 01:35"
   },
   {
     "id": 9,
     "type": "social",
-    "title": "김정우 靑 국정상황실장 사의…\"국민주권정부 성공 위해 노력\"",
+    "title": "\"철책 너머 세계로\"…김포시, 2차 평화경제특구 도전",
     "source": "국내",
     "from": "연합뉴스/정치",
     "ago": "0분 전",
     "heat": 97,
-    "url": "https://www.yna.co.kr/view/AKR20261108015400001",
-    "collected_at": "2026-11-08 01:15"
+    "url": "https://www.yna.co.kr/view/AKR20261109053500065",
+    "collected_at": "2026-11-09 01:35"
   },
   {
     "id": 10,
     "type": "social",
-    "title": "[부고] 정윤덕(연합뉴스 충남 서산 주재 부장)씨 장인상",
+    "title": "[연합뉴스 이 시각 헤드라인] - 10:30",
     "source": "국내",
-    "from": "연합뉴스/문화",
+    "from": "연합뉴스/사회",
     "ago": "0분 전",
-    "heat": 97,
-    "url": "https://www.yna.co.kr/view/AKR20261108016900063",
-    "collected_at": "2026-11-08 01:15"
+    "heat": 93,
+    "url": "https://www.yna.co.kr/view/AKR20261109051300011",
+    "collected_at": "2026-11-09 01:35"
   },
   {
     "id": 11,
     "type": "culture",
-    "title": "마이 케미컬 로맨스, 18년만 내한 공연…추위 녹인 2만명 떼창",
+    "title": "[AI픽] AI로 입점 심사부터 개장까지…SKT, 방탈출 게임 개최",
     "source": "국내",
     "from": "연합뉴스/문화",
     "ago": "0분 전",
-    "heat": 100,
-    "url": "https://www.yna.co.kr/view/AKR20261108001800005",
-    "collected_at": "2026-11-08 01:15"
+    "heat": 97,
+    "url": "https://www.yna.co.kr/view/AKR20261109054400017",
+    "collected_at": "2026-11-09 01:35"
   },
   {
     "id": 12,
     "type": "culture",
-    "title": "이랜드복지재단, 서울역 무료급식소 '아침애만나' 환경 개선",
+    "title": "홍천 사과축제 4만명 방문…매출 6억원 추산",
     "source": "국내",
     "from": "연합뉴스/문화",
     "ago": "0분 전",
-    "heat": 93,
-    "url": "https://www.yna.co.kr/view/AKR20261108015000030",
-    "collected_at": "2026-11-08 01:15"
+    "heat": 90,
+    "url": "https://www.yna.co.kr/view/AKR20261109053300062",
+    "collected_at": "2026-11-09 01:35"
   },
   {
     "id": 13,
     "type": "culture",
-    "title": "현대차·기아, 루크 동커볼케 CCO 디자인 아카이브 전시",
+    "title": "인천·경기 식당 10곳 돌며 금품 훔친 50대 구속",
     "source": "국내",
-    "from": "연합뉴스/문화",
+    "from": "연합뉴스/사회",
     "ago": "0분 전",
-    "heat": 90,
-    "url": "https://www.yna.co.kr/view/AKR20261108014400003",
-    "collected_at": "2026-11-08 01:15"
+    "heat": 86,
+    "url": "https://www.yna.co.kr/view/AKR20261109053600065",
+    "collected_at": "2026-11-09 01:35"
   },
   {
     "id": 14,
     "type": "culture",
-    "title": "울산소방, '시민 안전 향한 비행' 주제 드론경기대회",
+    "title": "연극 '테이크 미 아웃' 2028년 국내 초연…내달 실기 오디션",
     "source": "국내",
     "from": "연합뉴스/문화",
     "ago": "0분 전",
-    "heat": 83,
-    "url": "https://www.yna.co.kr/view/AKR20261106124200057",
-    "collected_at": "2026-11-08 01:15"
+    "heat": 86,
+    "url": "https://www.yna.co.kr/view/AKR20261109052400005",
+    "collected_at": "2026-11-09 01:35"
   },
   {
     "id": 15,
     "type": "culture",
-    "title": "\"지하철 타고 바위산으로\"…반크, 외국인용 K등산 길라잡이 첫선",
+    "title": "소노인터내셔널, 소노캄 제주서 '감귤 농장' 체험형 패키지 선봬",
     "source": "국내",
     "from": "연합뉴스/문화",
     "ago": "0분 전",
-    "heat": 79,
-    "url": "https://www.yna.co.kr/view/AKR20261106139200371",
-    "collected_at": "2026-11-08 01:15"
+    "heat": 83,
+    "url": "https://www.yna.co.kr/view/AKR20261109052900030",
+    "collected_at": "2026-11-09 01:35"
   },
   {
     "id": 16,
     "type": "overseas",
-    "title": "The end of Microsoft Research's AI Frontiers group",
+    "title": "Herb Sutter: When a language's creator and its owners strongly disagree [pdf]",
     "source": "해외",
     "from": "Hacker News",
     "ago": "0분 전",
-    "heat": 100,
-    "url": "https://hunch.net/?p=13764006",
-    "collected_at": "2026-11-08 01:15"
+    "heat": 97,
+    "url": "https://isocpp.org/files/papers/P4454R0.pdf",
+    "collected_at": "2026-11-09 01:35"
   },
   {
     "id": 17,
     "type": "overseas",
-    "title": "Claude Code's \"Don't Ask Again\" exposes passwords in 1,122 public GitHub files",
+    "title": "Unlocking any car from X brand in most of the world",
     "source": "해외",
     "from": "Hacker News",
     "ago": "0분 전",
-    "heat": 97,
-    "url": "https://apiiro.com/blog/coding-agents-leaking-secrets-github-dont-ask-again",
-    "collected_at": "2026-11-08 01:15"
+    "heat": 93,
+    "url": "https://shubs.io/unlocking-any-car-from-x-brand-in-most-of-the-world/",
+    "collected_at": "2026-11-09 01:35"
   },
   {
     "id": 18,
     "type": "overseas",
-    "title": "GitHub New pull request overview page in public preview",
+    "title": "Chimera Vocal Synth",
     "source": "해외",
     "from": "Hacker News",
     "ago": "0분 전",
-    "heat": 93,
-    "url": "https://github.blog/changelog/2026-11-05-new-pull-request-overview-page-in-public-preview/",
-    "collected_at": "2026-11-08 01:15"
+    "heat": 90,
+    "url": "https://chimera-vocal-synth.vercel.app/",
+    "collected_at": "2026-11-09 01:35"
   },
   {
     "id": 19,
     "type": "overseas",
-    "title": "Making any integer with four 2s (2025)",
+    "title": "Dux: Free, open-source Wayland desktop shell with file manager and theming",
     "source": "해외",
     "from": "Hacker News",
     "ago": "0분 전",
     "heat": 86,
-    "url": "https://eli.thegreenplace.net/2025/making-any-integer-with-four-2s/",
-    "collected_at": "2026-11-08 01:15"
+    "url": "https://duxlabs.dev/",
+    "collected_at": "2026-11-09 01:35"
   },
   {
     "id": 20,
     "type": "overseas",
-    "title": "Apple’s grey list: Words and phrases your iPhone won’t help you spell",
+    "title": "Ask HN: What are you working on? (November 2026)",
     "source": "해외",
     "from": "Hacker News",
     "ago": "0분 전",
     "heat": 83,
-    "url": "https://www.theguardian.com/technology/2026/nov/06/struggling-to-spell-male-chauvinist-pig-apple-grey-list-means-your-iphone-wont-help-you",
-    "collected_at": "2026-11-08 01:15"
+    "url": "https://news.ycombinator.com/item?id=50417407",
+    "collected_at": "2026-11-09 01:35"
   },
   {
     "id": 21,
-    "type": "living",
-    "title": "쿠팡·네이버도 한복이 '한푸'로…서경덕 \"中 한복공정에 빌미\"",
+    "type": "beauty",
+    "title": "국립재활원, 의료기기 품질경영시스템 국제표준 인증 획득",
     "source": "국내",
-    "from": "연합뉴스/정치",
+    "from": "연합뉴스/사회",
     "ago": "0분 전",
-    "heat": 90,
-    "url": "https://www.yna.co.kr/view/AKR20261107040400371",
-    "collected_at": "2026-11-08 01:15"
+    "heat": 79,
+    "url": "https://www.yna.co.kr/view/AKR20261109050900530",
+    "collected_at": "2026-11-09 01:35"
   },
   {
     "id": 22,
-    "type": "living",
-    "title": "What I run on my $10 USD OpenStick homelab",
-    "source": "해외",
-    "from": "Hacker News",
+    "type": "beauty",
+    "title": "경남환경재단 신임 대표에 송형근 전 국립공원공단 이사장",
+    "source": "국내",
+    "from": "연합뉴스/사회",
     "ago": "0분 전",
-    "heat": 90,
-    "url": "https://blog.bosscher.ch/posts/openstick/",
-    "collected_at": "2026-11-08 01:15"
+    "heat": 54,
+    "url": "https://www.yna.co.kr/view/AKR20261109049100052",
+    "collected_at": "2026-11-09 01:35"
   },
   {
     "id": 23,
-    "type": "season",
-    "title": "CU, 겨울철 겨냥 '딥핑·멜팅 치즈' 간편식 출시",
+    "type": "living",
+    "title": "[게시판] 한유원 동반성장몰, 우수 中企 제품 최대 14% 할인 판매",
     "source": "국내",
-    "from": "연합뉴스/경제",
+    "from": "연합뉴스/문화",
     "ago": "0분 전",
     "heat": 100,
-    "url": "https://www.yna.co.kr/view/AKR20261108016200030",
-    "collected_at": "2026-11-08 01:15"
+    "url": "https://www.yna.co.kr/view/AKR20261109055700030",
+    "collected_at": "2026-11-09 01:35"
   },
   {
     "id": 24,
     "type": "season",
-    "title": "CJ푸드빌 빕스, 잠실에 '그릴 다이닝' 매장 개점…연내 8곳 확대",
+    "title": "국힘 부산의원들, 산업은행 본점 조속한 부산이전 촉구",
     "source": "국내",
     "from": "연합뉴스/경제",
     "ago": "0분 전",
-    "heat": 97,
-    "url": "https://www.yna.co.kr/view/AKR20261108014200030",
-    "collected_at": "2026-11-08 01:15"
+    "heat": 100,
+    "url": "https://www.yna.co.kr/view/AKR20261109055300051",
+    "collected_at": "2026-11-09 01:35"
   },
   {
     "id": 25,
     "type": "season",
-    "title": "\"제조업 파업에 근로손실일수 45% 증가…N% 성과배분 요구 확산\"",
+    "title": "[연합뉴스 이 시각 헤드라인] - 10:30",
     "source": "국내",
     "from": "연합뉴스/경제",
     "ago": "0분 전",
-    "heat": 93,
-    "url": "https://www.yna.co.kr/view/AKR20261108013000003",
-    "collected_at": "2026-11-08 01:15"
+    "heat": 97,
+    "url": "https://www.yna.co.kr/view/AKR20261109051300011",
+    "collected_at": "2026-11-09 01:35"
   },
   {
     "id": 26,
     "type": "season",
-    "title": "광주송정역·금호타이어공장 일대 '반도체 관문도시' 조성",
+    "title": "강릉 전통문화와 현대예술의 만남…단단단페스티벌 26일 개막",
     "source": "국내",
-    "from": "연합뉴스/경제",
+    "from": "연합뉴스/문화",
     "ago": "0분 전",
-    "heat": 90,
-    "url": "https://www.yna.co.kr/view/AKR20261106086200054",
-    "collected_at": "2026-11-08 01:15"
+    "heat": 93,
+    "url": "https://www.yna.co.kr/view/AKR20261109053700062",
+    "collected_at": "2026-11-09 01:35"
   },
   {
     "id": 27,
     "type": "season",
-    "title": "'군포 복합물류터미널 이전 촉구' 범시민추진위 출범",
+    "title": "\"철책 너머 세계로\"…김포시, 2차 평화경제특구 도전",
     "source": "국내",
     "from": "연합뉴스/경제",
     "ago": "0분 전",
-    "heat": 86,
-    "url": "https://www.yna.co.kr/view/AKR20261106145700061",
-    "collected_at": "2026-11-08 01:15"
+    "heat": 93,
+    "url": "https://www.yna.co.kr/view/AKR20261109053500065",
+    "collected_at": "2026-11-09 01:35"
+  },
+  {
+    "id": 28,
+    "type": "season",
+    "title": "NH농협은행, 금융이력 부족한 개인·개인사업자 심사 개선",
+    "source": "국내",
+    "from": "연합뉴스/경제",
+    "ago": "0분 전",
+    "heat": 90,
+    "url": "https://www.yna.co.kr/view/AKR20261109051500002",
+    "collected_at": "2026-11-09 01:35"
   }
 ]
